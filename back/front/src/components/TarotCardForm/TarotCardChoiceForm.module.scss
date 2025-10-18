@@ -1,0 +1,996 @@
+@use '../../styles/scss/App.module.scss';
+@use '../../styles/scss/Font-Exact.module.scss' as FontExact;
+@use '../../styles/scss/TarotModal.module.scss';
+@use './TarotCardChoiceForm.variables.scss' as vars;
+
+@mixin deck-margin($zero) {
+  margin-bottom: -302px;
+  margin-right: $zero;
+}
+
+@mixin choice-card($ratio) {
+  @include TarotModal.card($ratio);
+  z-index: 1;
+  opacity: 1;
+  // GPU 가속 및 최적화된 transition (디바이스 깜빡임 방지)
+  will-change: transform, opacity;
+  transition: transform 0.07s ease, opacity 0.05s ease;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+//! ============================================
+//! 기본 스타일 (Default - Desktop)
+//! ============================================
+.choice-box {
+  @include App.no-select;
+  @include App.no-drag;
+  @include vars.choice-box-base(0px);
+  @include App.flex-box-center(column);
+}
+
+.choice-spread {
+  @include App.flex-box-center(row);
+}
+
+.choice-spread:not(:first-child) {
+  margin-top: -170px;
+}
+
+.choice-card {
+  @include choice-card(0.9);
+}
+
+.choice-card:not(:first-child) {
+  margin-left: -120px;
+}
+
+.choice-card:hover {
+  transform: translateY(-20px);
+}
+
+.choice-card img {
+  @include App.no-select;
+  @include App.no-drag;
+  @include TarotModal.card-image(0);
+}
+
+.invisible {
+  @include TarotModal.invisible();
+  pointer-events: none; // 클릭 방지
+  transition: none !important; // transition 즉시 완료 (깜빡임 방지)
+}
+
+.flex-grow {
+  @include App.flex-grow(1);
+}
+
+.flex-grow2 {
+  @include App.flex-grow(2);
+}
+
+.flex-grow3 {
+  @include App.flex-grow(5);
+}
+
+.btn-box {
+  @include App.no-select;
+  @include App.no-drag;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+
+  .btn {
+    @include vars.btn-base;
+    @include FontExact.exact-korean-font('size-150');
+  }
+
+  .btn:hover {
+    @include vars.btn-hover;
+  }
+
+  .btn-japanese {
+    @include vars.btn-japanese-base(1rem);
+  }
+
+  .btn-japanese:hover {
+    @include vars.btn-japanese-hover;
+  }
+}
+
+//! ============================================
+//! 반응형 웹브라우저용 (max-width)
+//! ============================================
+
+//~ 디바이스 1366px
+@media (max-width: 1366px) {
+  .choice-card {
+    @include choice-card(0.8);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -102px;
+  }
+  @include vars.responsive-choice-layout(0.8, -170px, -102px, 3);
+}
+
+//~ 태블릿, 아이패드, 아이패드 프로 1023px
+@media (max-width: 1023px) {
+  .choice-card {
+    @include choice-card(0.8);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -115px;
+  }
+  @include vars.responsive-choice-layout(0.8, -150px, -115px, 3);
+}
+
+//~ 481px ~ 767px 및 태블릿
+@media (max-width: 767px) {
+  .choice-box {
+    padding-top: 10px;
+  }
+  .choice-card {
+    @include choice-card(0.6);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -88px;
+  }
+  @include vars.responsive-choice-layout(0.6, -80px, -88px, 3, null, 10px);
+}
+
+//~ IPhone 14 Pro Max(430px)
+@media only screen and (max-width: 480px) {
+  .choice-card {
+    @include choice-card(0.6);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -90px;
+  }
+  @include vars.responsive-choice-layout(0.6, -80px, -90px, 3);
+}
+
+//~ 아이폰XR 414px
+@media (max-width: 414px) {
+  .choice-card {
+    @include choice-card(0.6);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -92px;
+  }
+  .flex-grow2 {
+    @include App.flex-grow(2.5);
+  }
+  @include vars.responsive-choice-layout(0.6, -80px, -92px, 3, 2.5);
+}
+
+//~ 아이폰 SE 375px
+@media (max-width: 375px) {
+  .choice-card {
+    @include choice-card(0.5);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -74px;
+  }
+  @include vars.responsive-choice-layout(0.5, -80px, -74px, 3);
+
+  .btn-box {
+    .btn-japanese {
+      @include FontExact.exact-korean-font('size-090');
+    }
+    .btn-japanese:hover {
+      @include FontExact.exact-korean-font('size-090');
+    }
+  }
+}
+
+//~ Pixel4, Galaxy S8+ 372px
+@media (max-width: 372px) {
+  .choice-card {
+    @include choice-card(0.5);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -75px;
+  }
+  .flex-grow2 {
+    @include App.flex-grow(2);
+  }
+  @include vars.responsive-choice-layout(0.5, -75px, -75px, 3, 2);
+
+  .btn-box {
+    .btn-japanese {
+      @include FontExact.exact-korean-font('size-090');
+    }
+    .btn-japanese:hover {
+      @include FontExact.exact-korean-font('size-090');
+    }
+  }
+}
+
+//~ Pixel4, Galaxy S8+ 352px
+@media (max-width: 352px) {
+  .choice-card {
+    @include choice-card(0.5);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -78px;
+  }
+  @include vars.responsive-choice-layout(0.5, -80px, -78px, 3);
+
+  .btn-box {
+    .btn-japanese {
+      @include FontExact.exact-korean-font('size-090');
+    }
+    .btn-japanese:hover {
+      @include FontExact.exact-korean-font('size-090');
+    }
+  }
+}
+
+//~ 갤럭시 폴드 280px
+@media (max-width: 280px) {
+  .choice-card {
+    @include choice-card(0.35);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -52px;
+  }
+  @include vars.responsive-choice-layout(0.35, -51px, -52px, 3);
+
+  .btn-box {
+    .btn-japanese {
+      @include FontExact.exact-korean-font('size-080');
+    }
+    .btn-japanese:hover {
+      @include FontExact.exact-korean-font('size-080');
+    }
+  }
+}
+
+//! ============================================
+//! 반응형 디바이스용 (min-device-width & max-device-width)
+//! ============================================
+
+//~ 디바이스 1023px ~ 1366px
+@media (min-device-width: 1023px) and (max-device-width: 1366px) {
+  .choice-card {
+    @include choice-card(0.8);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -65px;
+  }
+  @include vars.responsive-choice-layout(0.8, -140px, -65px, 3);
+}
+
+//~ 태블릿, 아이패드, 아이패드 프로 767px ~ 1023px
+@media (min-device-width: 767px) and (max-device-width: 1023px) {
+  .choice-card {
+    @include choice-card(0.8);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -85px;
+  }
+  @include vars.responsive-choice-layout(0.8, -150px, -85px, 3);
+}
+
+//~ 550px ~ 767px 및 태블릿
+@media (min-device-width: 550px) and (max-device-width: 767px) {
+  .choice-card {
+    @include choice-card(0.6);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -66px;
+  }
+  @include vars.responsive-choice-layout(0.6, -100px, -66px, 3);
+}
+
+//~ 480px ~ 550px
+@media (min-device-width: 480px) and (max-device-width: 550px) {
+  .choice-card {
+    @include choice-card(0.6);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -73px;
+  }
+  @include vars.responsive-choice-layout(0.6, -110px, -73px, 3);
+}
+
+//~ IPhone 14 Pro Max 415px ~ 480px
+@media only screen and (min-device-width: 415px) and (max-device-width: 480px) {
+  .choice-card {
+    @include choice-card(0.6);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -77px;
+  }
+  @include vars.responsive-choice-layout(0.6, -100px, -77px, 3);
+}
+
+//~ 아이폰XR 376px ~ 415px
+@media (min-device-width: 376px) and (max-device-width: 415px) {
+  .choice-card {
+    @include choice-card(0.6);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -81px;
+  }
+  .flex-grow2 {
+    @include App.flex-grow(2.5);
+  }
+  @include vars.responsive-choice-layout(0.6, -120px, -81px, 4, 2.5);
+}
+
+//~ 아이폰 SE 373px ~ 376px
+@media (min-device-width: 373px) and (max-device-width: 376px) {
+  .choice-card {
+    @include choice-card(0.5);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -62px;
+  }
+  @include vars.responsive-choice-layout(0.5, -90px, -62px, 3);
+
+  .btn-box {
+    .btn-japanese {
+      @include FontExact.exact-korean-font('size-090');
+    }
+    .btn-japanese:hover {
+      @include FontExact.exact-korean-font('size-090');
+    }
+  }
+}
+
+//~ PE 353px ~ 372px
+@media (min-device-width: 353px) and (max-device-width: 372px) {
+  .choice-card {
+    @include choice-card(0.5);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -64px;
+  }
+  .flex-grow2 {
+    @include App.flex-grow(2.5);
+  }
+  @include vars.responsive-choice-layout(0.5, -90px, -64px, 6, 2.5);
+
+  .btn-box {
+    .btn-japanese {
+      @include FontExact.exact-korean-font('size-090');
+    }
+    .btn-japanese:hover {
+      @include FontExact.exact-korean-font('size-090');
+    }
+  }
+}
+
+//~ Pixel4, Galaxy S8+ 311px ~ 352px
+@media (min-device-width: 311px) and (max-device-width: 352px) {
+  .choice-card {
+    @include choice-card(0.5);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -67px;
+  }
+  .flex-grow2 {
+    @include App.flex-grow(1);
+  }
+  @include vars.responsive-choice-layout(0.5, -105px, -67px, 3, 1);
+
+  .btn-box {
+    .btn-japanese {
+      @include FontExact.exact-korean-font('size-090');
+    }
+    .btn-japanese:hover {
+      @include FontExact.exact-korean-font('size-090');
+    }
+  }
+}
+
+//~ Pixel4, Galaxy S8+ 281px ~ 310px
+@media (min-device-width: 281px) and (max-device-width: 310px) {
+  .choice-card {
+    @include choice-card(0.5);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -70px;
+  }
+  @include vars.responsive-choice-layout(0.5, -80px, -70px, 3);
+
+  .btn-box {
+    .btn-japanese {
+      @include FontExact.exact-korean-font('size-090');
+    }
+    .btn-japanese:hover {
+      @include FontExact.exact-korean-font('size-090');
+    }
+  }
+}
+
+//~ 갤럭시 폴드 <= 280px
+@media (max-device-width: 280px) {
+  .choice-card {
+    @include choice-card(0.35);
+  }
+  .choice-card:not(:first-child) {
+    margin-left: -43px;
+  }
+  @include vars.responsive-choice-layout(0.35, -40px, -43px, 3);
+
+  .btn-box {
+    .btn-japanese {
+      @include FontExact.exact-korean-font('size-080');
+    }
+    .btn-japanese:hover {
+      @include FontExact.exact-korean-font('size-080');
+    }
+  }
+}
+
+//! ============================================
+//! 가로모드 (Landscape Orientation)
+//! ============================================
+
+//~ 아이패드 미니 ~ 아이패드 프로 가로 1023px ~ 1366px
+@media screen and (orientation: landscape) and (min-device-width: 1023px) and (max-device-width: 1366px) {
+  div.choice-box {
+    @include vars.choice-box-base();
+    @include App.flex-box-center(column);
+  }
+
+  div.choice-spread {
+    @include App.flex-box-center(row);
+  }
+
+  div.choice-spread:not(:first-child) {
+    margin-top: -90px;
+  }
+
+  div.choice-card {
+    @include choice-card(0.65);
+  }
+
+  div.choice-card:not(:first-child) {
+    margin-left: -77px;
+  }
+
+  div.choice-card:hover {
+    transform: translateY(-20px);
+  }
+
+  div.choice-card img {
+    @include TarotModal.card-image(0);
+  }
+
+  div.invisible {
+    @include TarotModal.invisible();
+  }
+
+  div.flex-grow {
+    @include App.flex-grow(1);
+  }
+
+  div.flex-grow3 {
+    @include App.flex-grow(4);
+  }
+
+  div.btn-box {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .btn {
+      @include vars.btn-base;
+      @include FontExact.exact-korean-font('size-150');
+    }
+
+    .btn:hover {
+      @include vars.btn-hover;
+    }
+
+    .btn-japanese {
+      @include vars.btn-japanese-base(1rem);
+    }
+
+    .btn-japanese:hover {
+      @include vars.btn-japanese-hover;
+    }
+  }
+}
+
+//~ 아이패드 미니 가로모드보다 작은 가로모드 932px ~ 1023px
+@media screen and (orientation: landscape) and (min-device-width: 932px) and (max-device-width: 1023px) {
+  div.choice-box {
+    @include vars.choice-box-base(0px);
+    @include App.flex-box-center(column);
+  }
+
+  div.choice-spread {
+    @include App.flex-box-center(row);
+  }
+
+  div.choice-spread:not(:first-child) {
+    margin-top: -80px;
+  }
+
+  div.choice-card {
+    @include choice-card(0.55);
+  }
+
+  div.choice-card:not(:first-child) {
+    margin-left: -69px;
+  }
+
+  div.choice-card:hover {
+    transform: translateY(-20px);
+  }
+
+  div.choice-card img {
+    @include TarotModal.card-image(0);
+  }
+
+  div.invisible {
+    @include TarotModal.invisible();
+  }
+
+  div.flex-grow {
+    @include App.flex-grow(1);
+  }
+
+  div.flex-grow3 {
+    @include App.flex-grow(4);
+  }
+
+  div.btn-box {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .btn {
+      @include vars.btn-base;
+      @include FontExact.exact-korean-font('size-150');
+    }
+
+    .btn:hover {
+      @include vars.btn-hover;
+    }
+
+    .btn-japanese {
+      @include vars.btn-japanese-base(1rem);
+    }
+
+    .btn-japanese:hover {
+      @include vars.btn-japanese-hover;
+    }
+  }
+}
+
+//~ IPhone 14 Pro Max 가로모드 929px ~ 932px
+@media screen and (orientation: landscape) and (min-device-width: 929px) and (max-device-width: 932px) {
+  div.choice-box {
+    @include vars.choice-box-base(0px);
+    @include App.flex-box-center(column);
+  }
+
+  div.choice-spread {
+    @include App.flex-box-center(row);
+  }
+
+  div.choice-spread:not(:first-child) {
+    margin-top: -60px;
+  }
+
+  div.choice-card {
+    @include choice-card(0.45);
+  }
+
+  div.choice-card:not(:first-child) {
+    margin-left: -47px;
+  }
+
+  div.choice-card:hover {
+    transform: translateY(-20px);
+  }
+
+  div.choice-card img {
+    @include TarotModal.card-image(0);
+  }
+
+  div.invisible {
+    @include TarotModal.invisible();
+  }
+
+  div.flex-grow {
+    @include App.flex-grow(1);
+  }
+
+  div.flex-grow3 {
+    @include App.flex-grow(5);
+  }
+
+  div.btn-box {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .btn {
+      @include vars.btn-base;
+      @include FontExact.exact-korean-font('size-150');
+    }
+
+    .btn:hover {
+      @include vars.btn-hover;
+    }
+
+    .btn-japanese {
+      @include vars.btn-japanese-base(1rem);
+    }
+
+    .btn-japanese:hover {
+      @include vars.btn-japanese-hover;
+    }
+  }
+}
+
+//~ 아이폰12 pro ~ 아이폰XR 가로 896px ~ 929px
+@media screen and (orientation: landscape) and (min-device-width: 896px) and (max-device-width: 929px) {
+  div.choice-box {
+    @include vars.choice-box-base(0px);
+    @include App.flex-box-center(column);
+  }
+
+  div.choice-spread {
+    @include App.flex-box-center(row);
+  }
+
+  div.choice-spread:not(:first-child) {
+    margin-top: -60px;
+  }
+
+  div.choice-card {
+    @include choice-card(0.45);
+  }
+
+  div.choice-card:not(:first-child) {
+    margin-left: -50px;
+  }
+
+  div.choice-card:hover {
+    transform: translateY(-20px);
+  }
+
+  div.choice-card img {
+    @include TarotModal.card-image(0);
+  }
+
+  div.invisible {
+    @include TarotModal.invisible();
+  }
+
+  div.flex-grow {
+    @include App.flex-grow(1);
+  }
+
+  div.flex-grow3 {
+    @include App.flex-grow(5);
+  }
+
+  div.btn-box {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .btn {
+      @include vars.btn-base;
+      @include FontExact.exact-korean-font('size-150');
+    }
+
+    .btn:hover {
+      @include vars.btn-hover;
+    }
+
+    .btn-japanese {
+      @include vars.btn-japanese-base(1rem);
+    }
+
+    .btn-japanese:hover {
+      @include vars.btn-japanese-hover;
+    }
+  }
+}
+
+//~ 아이폰XR 가로모드 894px ~ 896px
+@media screen and (orientation: landscape) and (min-device-width: 894px) and (max-device-width: 896px) {
+  div.choice-box {
+    @include vars.choice-box-base();
+    @include App.flex-box-center(column);
+  }
+
+  div.choice-spread {
+    @include App.flex-box-center(row);
+  }
+
+  div.choice-spread:not(:first-child) {
+    margin-top: -60px;
+  }
+
+  div.choice-card {
+    @include choice-card(0.4);
+  }
+
+  div.choice-card:not(:first-child) {
+    margin-left: -39px;
+  }
+
+  div.choice-card:hover {
+    transform: translateY(-20px);
+  }
+
+  div.choice-card img {
+    @include TarotModal.card-image(0);
+  }
+
+  div.invisible {
+    @include TarotModal.invisible();
+  }
+
+  div.flex-grow {
+    @include App.flex-grow(1);
+  }
+
+  div.flex-grow2 {
+    @include App.flex-grow(2);
+  }
+
+  div.flex-grow3 {
+    @include App.flex-grow(5);
+  }
+
+  div.btn-box {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .btn {
+      @include vars.btn-base;
+      @include FontExact.exact-korean-font('size-150');
+    }
+
+    .btn:hover {
+      @include vars.btn-hover;
+    }
+
+    .btn-japanese {
+      @include vars.btn-japanese-base(1rem);
+    }
+
+    .btn-japanese:hover {
+      @include vars.btn-japanese-hover;
+    }
+  }
+}
+
+//~ 아이폰12 pro ~ 아이폰XR 가로 843px ~ 894px
+@media screen and (orientation: landscape) and (min-device-width: 843px) and (max-device-width: 894px) {
+  div.choice-box {
+    @include vars.choice-box-base();
+    @include App.flex-box-center(column);
+  }
+
+  div.choice-spread {
+    @include App.flex-box-center(row);
+  }
+
+  div.choice-spread:not(:first-child) {
+    margin-top: -60px;
+  }
+
+  div.choice-card {
+    @include choice-card(0.4);
+  }
+
+  div.choice-card:not(:first-child) {
+    margin-left: -41px;
+  }
+
+  div.choice-card:hover {
+    transform: translateY(-20px);
+  }
+
+  div.choice-card img {
+    @include TarotModal.card-image(0);
+  }
+
+  div.invisible {
+    @include TarotModal.invisible();
+  }
+
+  div.flex-grow {
+    @include App.flex-grow(1);
+  }
+
+  div.flex-grow2 {
+    @include App.flex-grow(2);
+  }
+
+  div.flex-grow3 {
+    @include App.flex-grow(5);
+  }
+
+  div.btn-box {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .btn {
+      @include vars.btn-base;
+      @include FontExact.exact-korean-font('size-150');
+    }
+
+    .btn:hover {
+      @include vars.btn-hover;
+    }
+
+    .btn-japanese {
+      @include vars.btn-japanese-base(1rem);
+    }
+
+    .btn-japanese:hover {
+      @include vars.btn-japanese-hover;
+    }
+  }
+}
+
+//~ 아이폰SE ~ 아이폰12 pro 가로 667px ~ 843px
+@media screen and (orientation: landscape) and (min-device-width: 667px) and (max-device-width: 843px) {
+  div.choice-box {
+    @include vars.choice-box-base();
+    @include App.flex-box-center(column);
+  }
+
+  div.choice-spread {
+    @include App.flex-box-center(row);
+  }
+
+  div.choice-spread:not(:first-child) {
+    margin-top: -60px;
+  }
+
+  div.choice-card {
+    @include choice-card(0.4);
+  }
+
+  div.choice-card:not(:first-child) {
+    margin-left: -46px;
+  }
+
+  div.choice-card:hover {
+    transform: translateY(-20px);
+  }
+
+  div.choice-card img {
+    @include TarotModal.card-image(0);
+  }
+
+  div.invisible {
+    @include TarotModal.invisible();
+  }
+
+  div.flex-grow {
+    @include App.flex-grow(1);
+  }
+
+  div.flex-grow2 {
+    @include App.flex-grow(2);
+  }
+
+  div.flex-grow3 {
+    @include App.flex-grow(5);
+  }
+
+  div.btn-box {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .btn {
+      @include vars.btn-base;
+      @include FontExact.exact-korean-font('size-150');
+    }
+
+    .btn:hover {
+      @include vars.btn-hover;
+    }
+
+    .btn-japanese {
+      @include vars.btn-japanese-base(1rem);
+    }
+
+    .btn-japanese:hover {
+      @include vars.btn-japanese-hover;
+    }
+  }
+}
+
+//~ 아이폰SE 가로모드 665px ~ 667px
+@media screen and (orientation: landscape) and (min-device-width: 665px) and (max-device-width: 667px) {
+  div.choice-box {
+    @include vars.choice-box-base(0px);
+    @include App.flex-box-center(column);
+  }
+
+  div.choice-spread {
+    @include App.flex-box-center(row);
+  }
+
+  div.choice-spread:not(:first-child) {
+    margin-top: -50px;
+  }
+
+  div.choice-card {
+    @include choice-card(0.35);
+  }
+
+  div.choice-card:not(:first-child) {
+    margin-left: -39px;
+  }
+
+  div.choice-card:hover {
+    transform: translateY(-20px);
+  }
+
+  div.choice-card img {
+    @include TarotModal.card-image(0);
+  }
+
+  div.invisible {
+    @include TarotModal.invisible();
+  }
+
+  div.flex-grow {
+    @include App.flex-grow(1);
+  }
+
+  div.flex-grow3 {
+    @include App.flex-grow(4);
+  }
+
+  div.btn-box {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .btn {
+      @include vars.btn-base;
+      @include FontExact.exact-korean-font('size-150');
+    }
+
+    .btn:hover {
+      @include vars.btn-hover;
+    }
+
+    .btn-japanese {
+      @include vars.btn-japanese-base(1rem);
+    }
+
+    .btn-japanese:hover {
+      @include vars.btn-japanese-hover;
+    }
+  }
+}

@@ -1,0 +1,311 @@
+@use '../../styles/scss/App.module.scss';
+@use '../../styles/scss/Font-Exact.module.scss' as FontExact;
+@use '../../styles/scss/TarotCardSpreadForm.module.scss';
+
+.container {
+  width: 100vw;
+  height: calc(100vh - 130px);
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  position: relative;
+}
+
+.background {
+  width: 100vw;
+  max-width: 1290px;
+  min-width: 250px;
+  height: 100%;
+  min-height: Calc(100vh - 130px);
+  max-height: 1300px;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.8
+  ); // opacity 적용시 자식들까지 적용되고 해제가 되지 않음. 그래서 rgba의 4번째인자로 해당 css에만 적용시킴.
+  z-index: 10;
+  @include App.position-absolute-center();
+  top: 0px;
+  transform: translate(-50%, 0%);
+  color: gold;
+  @include App.flex-box-center(row);
+  overflow: auto;
+  div:first-child {
+  }
+  div:nth-child(2) {
+    p:first-child {
+    }
+  }
+
+  // * {
+  //   border: 1px solid red;
+  // }
+}
+
+.tarot-master-container {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 130px);
+}
+.charging {
+  background-color: rgb(255, 0, 0, 0.7) !important;
+  font-size: 1.2rem !important; /* Font-Exact: size-120, !important 필요로 직접 사용 */
+}
+.unavailable-voucher {
+  background-color: rgb(150, 50, 255, 0.7) !important;
+  font-size: 1.2rem !important; /* Font-Exact: size-120, !important 필요로 직접 사용 */
+}
+.unavailable-which-tarot {
+  background-color: rgba(76, 236, 143, 0.7) !important;
+  font-size: 1.2rem !important; /* Font-Exact: size-120, !important 필요로 직접 사용 */
+}
+.which-spread {
+  // background-color: rgb(78, 6, 78, 0.7) !important;
+  color: gold !important;
+  // background-color: rgba(255, 215, 0, 0.7) !important;
+  background-color: rgb(78, 6, 78, 0.8) !important;
+  // border: 3px solid rgba(255, 215, 0, 0.7);
+  font-weight: bold;
+  font-size: 2rem !important  /* Font-Exact: size-200 */;
+  // color: rgb(46, 46, 195) !important;
+  // text-shadow: -0.5px -0.5px 0 white, 0.5px -0.5px 0 white, -0.5px 0.5px 0 white,
+  //   0.5px 0.5px 0 white; /* 흰색 외곽선 */
+}
+.fill-in-the-question {
+  background-color: rgba(15, 15, 79, 0.837) !important;
+  font-size: 1.2rem !important  /* Font-Exact: size-120 */;
+  // color: gold !important;
+  // border: 3px solid white;
+}
+.flex-grow {
+  @include App.flex-grow(1);
+}
+//~ 디바이스
+@media (min-device-width: 1025px) and (max-device-width: 1366px) {
+  .background {
+    flex-direction: column;
+  }
+}
+//~ 태블릿, 아이패드, 아이패드 프로
+@media (min-device-width: 769px) and (max-device-width: 1024px) {
+  .background {
+    flex-direction: column;
+  }
+}
+//~ 481px ~ 768px 및 태블릿
+@media (min-device-width: 481px) and (max-device-width: 768px) {
+  .background {
+    flex-direction: column;
+  }
+}
+
+//~ IPhone 14 Pro Max(430px)
+@media only screen and (min-device-width: 415px) and (max-device-width: 480px) {
+  .background {
+    flex-direction: column;
+  }
+  .charging {
+    background-color: rgb(255, 0, 0, 0.7) !important;
+    font-size: 1rem !important;
+  }
+  .unavailable-voucher {
+    background-color: rgb(150, 50, 255, 0.7) !important;
+    font-size: 1rem !important;
+  }
+}
+
+//~ 아이폰XR
+@media (min-device-width: 376px) and (max-device-width: 414px) {
+  .background {
+    flex-direction: column;
+  }
+  .charging {
+    background-color: rgb(255, 0, 0, 0.7) !important;
+    font-size: 0.9rem !important  /* Font-Exact: size-090 */;
+  }
+  .unavailable-voucher {
+    background-color: rgb(150, 50, 255, 0.7) !important;
+    font-size: 0.9rem !important  /* Font-Exact: size-090 */;
+  }
+}
+//~ 아이폰 SE
+@media (min-device-width: 281px) and (max-device-width: 375px) {
+  .background {
+    flex-direction: column;
+  }
+  .charging {
+    background-color: rgb(255, 0, 0, 0.7) !important;
+    font-size: 0.6rem !important  /* Font-Exact: size-060 */;
+  }
+  .unavailable-voucher {
+    background-color: rgb(150, 50, 255, 0.7) !important;
+    font-size: 0.6rem !important  /* Font-Exact: size-060 */;
+  }
+}
+
+//~ 갤럭시 폴드
+@media (max-device-width: 280px) {
+  .background {
+    flex-direction: column;
+  }
+  .charging {
+    background-color: rgb(255, 0, 0, 0.7) !important;
+    font-size: 0.6rem !important  /* Font-Exact: size-060 */;
+  }
+  .unavailable-voucher {
+    background-color: rgb(150, 50, 255, 0.7) !important;
+    font-size: 0.6rem !important  /* Font-Exact: size-060 */;
+  }
+}
+
+//! 반응형 웹브라우저
+//~ 디바이스
+@media (min-width: 1025px) and (max-width: 1366px) {
+  .background {
+    flex-direction: column;
+  }
+}
+//~ 태블릿, 아이패드, 아이패드 프로
+@media (min-width: 769px) and (max-width: 1024px) {
+  .background {
+    flex-direction: column;
+  }
+}
+//~ 481px ~ 768px 및 태블릿
+@media (min-width: 481px) and (max-width: 768px) {
+  .background {
+    flex-direction: column;
+  }
+}
+
+//~ IPhone 14 Pro Max(430px)
+@media only screen and (min-width: 415px) and (max-width: 480px) {
+  .background {
+    flex-direction: column;
+  }
+  .charging {
+    background-color: rgb(255, 0, 0, 0.7) !important;
+    font-size: 1rem !important;
+  }
+  .unavailable-voucher {
+    background-color: rgb(150, 50, 255, 0.7) !important;
+    font-size: 1rem !important;
+  }
+}
+
+//~ 아이폰XR
+@media (min-width: 376px) and (max-width: 414px) {
+  .background {
+    flex-direction: column;
+  }
+  .charging {
+    background-color: rgb(255, 0, 0, 0.7) !important;
+    font-size: 0.9rem !important  /* Font-Exact: size-090 */;
+  }
+  .unavailable-voucher {
+    background-color: rgb(150, 50, 255, 0.7) !important;
+    font-size: 0.9rem !important  /* Font-Exact: size-090 */;
+  }
+}
+//~ 아이폰 SE
+@media (min-width: 281px) and (max-width: 375px) {
+  .background {
+    flex-direction: column;
+  }
+  .charging {
+    background-color: rgb(255, 0, 0, 0.7) !important;
+    font-size: 0.6rem !important  /* Font-Exact: size-060 */;
+  }
+  .unavailable-voucher {
+    background-color: rgb(150, 50, 255, 0.7) !important;
+    font-size: 0.6rem !important  /* Font-Exact: size-060 */;
+  }
+}
+
+//~ 갤럭시 폴드
+@media (max-width: 280px) {
+  .background {
+    flex-direction: column;
+  }
+  .charging {
+    background-color: rgb(255, 0, 0, 0.7) !important;
+    font-size: 0.6rem !important  /* Font-Exact: size-060 */;
+  }
+  .unavailable-voucher {
+    background-color: rgb(150, 50, 255, 0.7) !important;
+    font-size: 0.6rem !important  /* Font-Exact: size-060 */;
+  }
+}
+
+//* 아이패드 프로 가로모드
+@media screen and (orientation: landscape) and (min-device-width: 1025px) and (max-device-width: 1366px) {
+  .background {
+    flex-direction: row;
+  }
+}
+
+//* 태블릿 아이패드, 아이패드 프로 가로모드
+@media screen and (orientation: landscape) and (min-device-width: 933px) and (max-device-width: 1024px) {
+  .background {
+    flex-direction: row;
+  }
+  // .container {
+  //   height: 100vh;
+  //   background: black;
+  // }
+  // .tarot-master-container {
+  //   height: 100vh;
+  // }
+}
+//* IPhon 14 Pro Max 가로모드
+@media screen and (orientation: landscape) and (min-device-width: 897px) and (max-device-width: 932px) {
+  .background {
+    flex-direction: row;
+  }
+  .container {
+    height: 100vh;
+    background: black;
+  }
+  .tarot-master-container {
+    height: 100vh;
+  }
+} //* 아이폰XR 가로모드
+@media screen and (orientation: landscape) and (min-device-width: 668px) and (max-device-width: 896px) {
+  .background {
+    flex-direction: row;
+  }
+  .container {
+    height: 100vh;
+    background: black;
+  }
+  .tarot-master-container {
+    height: 100vh;
+  }
+} //* 아이폰SE 가로모드
+@media screen and (orientation: landscape) and (min-device-width: 654px) and (max-device-width: 667px) {
+  .background {
+    flex-direction: row;
+  }
+  .container {
+    height: 100vh;
+  }
+  .tarot-master-container {
+    height: 100vh;
+  }
+}
+//* 갤럭시 폴드 가로모드
+@media screen and (orientation: landscape) and (max-device-width: 653px) {
+  .background {
+    flex-direction: row;
+  }
+  .container {
+    height: 100vh;
+  }
+  .tarot-master-container {
+    height: calc(100vh + 10px);
+    position: absolute;
+    top: -10px;
+  }
+}

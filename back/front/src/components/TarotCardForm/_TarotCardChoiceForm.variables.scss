@@ -1,0 +1,167 @@
+// TarotCardChoiceForm 공통 변수 및 Mixin
+@use '../../styles/scss/App.module.scss';
+@use '../../styles/scss/TarotModal.module.scss';
+
+// ============================================
+// 색상 변수
+// ============================================
+$tarot-primary-purple: #8b5cf6;
+$tarot-primary-purple-light: #a78bfa;
+$tarot-primary-purple-dark: #2d1554;
+$tarot-primary-purple-darker: #4c1d95;
+$tarot-text-light: #e9d5ff;
+$tarot-box-shadow-color: rgba(25, 40, 171, 1);
+
+// ============================================
+// Shadow 변수
+// ============================================
+$tarot-main-box-shadow: 7px 20px 400px 77px $tarot-box-shadow-color;
+$tarot-btn-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+$tarot-btn-shadow-hover: 0 0 25px rgba(139, 92, 246, 0.7);
+
+// ============================================
+// Gradient 변수
+// ============================================
+$tarot-btn-gradient: linear-gradient(135deg, $tarot-primary-purple-dark 0%, $tarot-primary-purple-darker 100%);
+$tarot-btn-gradient-hover: linear-gradient(135deg, $tarot-primary-purple 0%, $tarot-primary-purple-light 100%);
+
+// ============================================
+// Mixin: Choice-box Base
+// ============================================
+@mixin choice-box-base($padding-top: 0px) {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0, 0, 0, 0);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-shadow: $tarot-main-box-shadow;
+  -webkit-box-shadow: $tarot-main-box-shadow;
+  -moz-box-shadow: $tarot-main-box-shadow;
+  padding-top: $padding-top;
+}
+
+// ============================================
+// Mixin: 공통 Choice 스타일
+// ============================================
+@mixin common-choice-styles {
+  .choice-card:hover {
+    transform: translateY(-20px);
+  }
+
+  .choice-card img {
+    @include TarotModal.card-image(0);
+  }
+
+  .invisible {
+    @include TarotModal.invisible();
+  }
+
+  .flex-grow {
+    @include App.flex-grow(1);
+  }
+}
+
+// ============================================
+// Mixin: Responsive Choice Layout (핵심 통합 Mixin)
+// ============================================
+@mixin responsive-choice-layout(
+  $card-ratio,
+  $margin-top,
+  $margin-left,
+  $flex-grow3: 3,
+  $flex-grow2: null,
+  $padding-top: 0px
+) {
+  .choice-box {
+    @include choice-box-base($padding-top);
+  }
+
+  .choice-spread:not(:first-child) {
+    margin-top: $margin-top;
+  }
+
+  .choice-card:not(:first-child) {
+    margin-left: $margin-left;
+  }
+
+  .flex-grow3 {
+    @include App.flex-grow($flex-grow3);
+  }
+
+  @if $flex-grow2 {
+    .flex-grow2 {
+      @include App.flex-grow($flex-grow2);
+    }
+  }
+
+  @include common-choice-styles();
+}
+
+// ============================================
+// Mixin: 버튼 기본 스타일
+// ============================================
+@mixin btn-base {
+  width: auto;
+  height: auto;
+  min-width: 70px;
+  padding: 7px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border: none;
+  border-radius: 25px;
+  border: 2px solid $tarot-primary-purple;
+  color: $tarot-text-light;
+  background: $tarot-btn-gradient;
+  cursor: pointer;
+  line-height: 1.2;
+  box-shadow: $tarot-btn-shadow;
+  transition: all 0.3s ease;
+  margin-right: 10px;
+}
+
+@mixin btn-hover {
+  border: 2px solid $tarot-primary-purple-light;
+  color: white;
+  background: $tarot-btn-gradient-hover;
+  cursor: pointer;
+  box-shadow: $tarot-btn-shadow-hover;
+  transform: translateY(-2px);
+}
+
+// ============================================
+// Mixin: 버튼 Japanese 스타일
+// ============================================
+@mixin btn-japanese-base($font-size: 1rem) {
+  width: auto;
+  height: auto;
+  min-width: 70px;
+  padding: 7px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: none;
+  border-radius: 25px;
+  border: 2px solid $tarot-primary-purple;
+  color: $tarot-text-light;
+  background: $tarot-btn-gradient;
+  cursor: pointer;
+  line-height: 1.2;
+  box-shadow: $tarot-btn-shadow;
+  transition: all 0.3s ease;
+  margin-right: 10px;
+  font-size: $font-size;
+}
+
+@mixin btn-japanese-hover($font-size: null) {
+  border: 2px solid $tarot-primary-purple-light;
+  color: white;
+  background: $tarot-btn-gradient-hover;
+  cursor: pointer;
+  box-shadow: $tarot-btn-shadow-hover;
+  transform: translateY(-2px);
+  @if $font-size {
+    font-size: $font-size;
+  }
+}

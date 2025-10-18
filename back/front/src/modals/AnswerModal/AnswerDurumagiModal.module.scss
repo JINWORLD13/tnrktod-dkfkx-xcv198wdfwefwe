@@ -1,0 +1,3977 @@
+﻿@use '../../styles/scss/App.module.scss';
+@use '../../styles/scss/Font-Exact.module.scss' as FontExact;
+@use '../../styles/scss/TarotCardSpreadForm.module.scss';
+
+%durumagi-container {
+  width: 40%;
+  min-width: 550px; // & 크기 이상해지면 없애거나 수정
+  height: 80%;
+  //   /* 그림자 효과 */
+  //   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+  background-image: url('/assets/images/durumagi4.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  @include App.position-absolute-right-half();
+  @include App.flex-box-center(column);
+}
+
+%durumagi-box {
+  width: 66%;
+  height: 70%;
+  position: relative;
+  @include App.flex-box-center(column);
+  justify-content: space-between;
+}
+%durumagi-btn-box {
+  width: 100%;
+  height: 10%;
+  @include App.flex-box-center(row);
+  justify-content: end;
+  position: absolute;
+  bottom: 0;
+  margin: 0;
+}
+@mixin durumagi-btn-hover($font-size, $font-weight) {
+  font-size: $font-size;
+  font-weight: $font-weight;
+  color: rgb(177, 40, 40);
+  background-color: gold;
+}
+@mixin durumagi-content-without-japanse(
+  $width,
+  $height,
+  $p-tag-margin-bottom,
+  $font-size
+) {
+  width: $width;
+  height: $height;
+  overflow-y: auto;
+  position: absolute;
+  top: 0%;
+  @include App.dongle-font($font-size);
+  line-height: 1.25;
+  color: black;
+  p {
+    margin-bottom: $p-tag-margin-bottom;
+  }
+}
+@mixin durumagi-content-japanse(
+  $width,
+  $height,
+  $p-tag-margin-bottom,
+  $font-size
+) {
+  width: $width;
+  height: $height;
+  overflow-y: auto;
+  position: absolute;
+  top: 0%;
+  @include App.potta-font($font-size);
+  line-height: 1.6;
+  color: black;
+  p {
+    margin-bottom: $p-tag-margin-bottom;
+  }
+}
+
+.front {
+  @include TarotCardSpreadForm.front();
+}
+.front-reversed {
+  @include TarotCardSpreadForm.front-reversed();
+}
+.durumagi-container {
+  @extend %durumagi-container;
+  position: absolute;
+  transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+
+  &.initial {
+    //! .durumagi-container.initial 이란 뜻. 같은 태그임.
+    top: 50%;
+    height: 80%;
+  }
+
+  &.heightUp {
+    height: 100%;
+    top: 50%;
+  }
+
+  .durumagi-box {
+    @extend %durumagi-box;
+  }
+  .content {
+    @include durumagi-content-without-japanse(100%, 85%, 15px, 1.7rem);
+    .ads {
+      background-color: #614051;
+      border: #614051;
+    }
+    .ads:hover {
+      background-color: #000080;
+      color: gold;
+    }
+    .card-meaning {
+      background-color: #000080;
+      border: #000080;
+    }
+    .card-meaning:hover {
+      background-color: #614051;
+      color: gold;
+    }
+  }
+
+  @include App.scrollBar-custom-className(
+    content,
+    40px,
+    10px,
+    rgba(139, 92, 246, 1),
+    rgba(139, 92, 246, 0.3)
+  );
+}
+.symbol-meaning-box {
+  border: thick double black;
+  border-radius: 1rem;
+  padding: 1rem;
+  // background-color: rgba(0, 0, 0, 0.14);
+}
+.btn-box {
+  @extend %durumagi-btn-box;
+
+  .scale-btn:first-child {
+    display: none;
+  }
+  .scale-btn {
+    width: auto;
+    height: auto;
+    @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+  }
+  .cancel-btn,
+  .text-save-btn {
+    width: 20%;
+    height: 100%;
+    max-height: 40px;
+    @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+  }
+  .cancel-btn:hover,
+  .text-save-btn:hover {
+    @include durumagi-btn-hover(1.4rem, 500);
+  }
+}
+
+.durumagi-container-japanese {
+  @extend %durumagi-container;
+  position: absolute;
+  transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+
+  &.initial {
+    top: 50%;
+    height: 80%;
+  }
+
+  &.heightUp {
+    height: 100%;
+    top: 50%;
+  }
+  .durumagi-box-japanese {
+    @extend %durumagi-box;
+  }
+  .content-japanese {
+    @include durumagi-content-japanse(100%, 85%, 15px, 1.1rem);
+    .ads {
+      background-color: #614051;
+      border: #614051;
+    }
+    .ads:hover {
+      background-color: #000080;
+      color: gold;
+    }
+    .card-meaning {
+      background-color: #000080;
+      border: #000080;
+    }
+    .card-meaning:hover {
+      background-color: #614051;
+      color: gold;
+    }
+  }
+  @include App.scrollBar-custom-className(
+    content-japanese,
+    40px,
+    10px,
+    rgba(139, 92, 246, 1),
+    rgba(139, 92, 246, 0.3)
+  );
+}
+.btn-box-japanese {
+  @extend %durumagi-btn-box;
+  height: 10%;
+  padding: 0px;
+  .scale-btn-japanese:first-child {
+    display: none;
+  }
+  .scale-btn-japanese {
+    width: auto;
+    height: auto;
+    font-size: 1rem;
+  }
+  .scale-btn-japanese:hover {
+    @include durumagi-btn-hover(1rem, 500);
+  }
+  .cancel-btn-japanese,
+  .text-save-btn-japanese {
+    width: 20%;
+    min-width: 80px;
+    height: 100%;
+    max-height: 40px;
+    font-size: 1rem;
+  }
+  .cancel-btn-japanese:hover,
+  .text-save-btn-japanese:hover {
+    @include durumagi-btn-hover(1rem, 500);
+  }
+}
+
+.flex-grow {
+  @include App.flex-grow(1);
+}
+
+//~ 디바이스
+@media screen and (min-device-width: 1025px) and (max-device-width: 1366px) {
+  .durumagi-container {
+    width: 50%;
+    min-width: 100px;
+    height: 80%;
+    &.initial {
+      top: 50%;
+      height: 80%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 50%;
+    }
+    .durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    .content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1.7rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box {
+    .scale-btn:first-child {
+      display: none;
+    }
+    .scale-btn {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1.4rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 70px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1.4rem, 500);
+    }
+  }
+
+  .durumagi-container-japanese {
+    width: 50%;
+    min-width: 100px;
+    height: 80%;
+    @include App.position-absolute-right-half();
+    &.initial {
+      top: 50%;
+      height: 80%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 50%;
+    }
+    .durumagi-box-japanese {
+      position: relative;
+    }
+    .content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 1.1rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: none;
+    }
+    .scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      font-size: 1rem;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 80px;
+      height: auto;
+      font-size: 1rem;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+  }
+}
+//~ 태블릿, 아이패드, 아이패드 프로
+@media screen and (min-device-width: 769px) and (max-device-width: 1024px) {
+  .durumagi-container {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    .content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1.7rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box {
+    .scale-btn:first-child {
+      display: block;
+    }
+    .scale-btn {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1.4rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 100px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1.4rem, 500);
+    }
+  }
+
+  .durumagi-container-japanese {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+
+    .durumagi-box-japanese {
+      position: relative;
+    }
+    .content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 1.1rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: block;
+    }
+    .scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      font-size: 1rem;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 40px;
+      height: auto;
+      font-size: 1rem;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+  }
+}
+
+//~ 481px ~ 768px 및 태블릿
+@media screen and (min-device-width: 481px) and (max-device-width: 768px) {
+  .durumagi-container {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    .content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1.6rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box {
+    .scale-btn:first-child {
+      display: block;
+    }
+    .scale-btn {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1.4rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 75px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1.4rem, 500);
+    }
+  }
+
+  .durumagi-container-japanese {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box-japanese {
+      position: relative;
+    }
+    .content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 1.1rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: block;
+    }
+    .scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      font-size: 1rem;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 70px;
+      height: auto;
+      font-size: 1rem;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+  }
+}
+
+//~ IPhone 14 Pro Max(430px)
+@media screen and (min-device-width: 415px) and (max-device-width: 480px) {
+  .durumagi-container {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    .content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1.4rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box {
+    .scale-btn:first-child {
+      display: block;
+    }
+    .scale-btn {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-130') /* was: 1.3rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1.3rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 60px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-130') /* was: 1.3rem */;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1.3rem, 500);
+    }
+  }
+
+  .durumagi-container-japanese {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box-japanese {
+      position: relative;
+    }
+    .content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 1rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: block;
+    }
+    .scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-065') /* was: 0.65rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.65rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 40px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-065') /* was: 0.65rem */;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(0.65rem, 500);
+    }
+  }
+}
+
+//~ 아이폰XR
+@media screen and (min-device-width: 376px) and (max-device-width: 414px) {
+  .durumagi-container {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    .content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1.3rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box {
+    .scale-btn:first-child {
+      display: block;
+    }
+    .scale-btn {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-110') /* was: 1.1rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1.1rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 50px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-110') /* was: 1.1rem */;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1.1rem, 500);
+    }
+  }
+
+  .durumagi-container-japanese {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box-japanese {
+      position: relative;
+    }
+    div.content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 0.8rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: block;
+    }
+    .scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-070') /* was: 0.7rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.7rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 40px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-070') /* was: 0.7rem */;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(0.7rem, 500);
+    }
+  }
+}
+
+//~ 아이폰 SE
+@media screen and (min-device-width: 281px) and (max-device-width: 375px) {
+  .durumagi-container {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    .content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box {
+    .scale-btn:first-child {
+      display: none;
+    }
+    .scale-btn {
+      width: auto;
+      height: auto;
+      font-size: 1rem;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 45px;
+      height: auto;
+      font-size: 1rem;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+  }
+
+  .durumagi-container-japanese {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box-japanese {
+      position: relative;
+    }
+    div.content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 0.7rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: none;
+    }
+    .scale-btn-japanese {
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-070') /* was: 0.7rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.7rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 40px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-070') /* was: 0.7rem */;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(0.7rem, 500);
+    }
+  }
+}
+
+//~ 아이폰 SE
+@media screen and (min-device-width: 346px) and (max-device-width: 375px) {
+  .btn-box {
+    .scale-btn:first-child {
+      display: block;
+    }
+    .scale-btn {
+      width: auto;
+      height: auto;
+      font-size: 1rem;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+  }
+  .btn-box-japanese {
+    height: 10%;
+    .scale-btn-japanese:first-child {
+      display: block;
+    }
+    .scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-070') /* was: 0.7rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.7rem, 500);
+    }
+  }
+}
+
+//~ 아이폰 SE (min은 이상, max는 미만)
+@media screen and (min-device-width: 290px) and (max-device-width: 346px) {
+  .durumagi-container-japanese {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box-japanese {
+      position: relative;
+    }
+    div.content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 0.7rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: none;
+    }
+    .scale-btn-japanese {
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-055') /* was: 0.55rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.55rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 40px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-070') /* was: 0.7rem */;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(0.7rem, 500);
+    }
+  }
+}
+
+//~ 아이폰 SE
+@media screen and (min-device-width: 281px) and (max-device-width: 290px) {
+  .durumagi-container-japanese {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box-japanese {
+      position: relative;
+    }
+    div.content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 0.7rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: none;
+    }
+    .scale-btn-japanese {
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-055') /* was: 0.55rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.55rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 40px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-060') /* was: 0.6rem */;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(0.6rem, 500);
+    }
+  }
+}
+
+//~ 갤럭시 폴드
+@media screen and (max-device-width: 280px) {
+  .durumagi-container {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    .content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box {
+    .scale-btn:first-child {
+      display: block;
+      width: auto;
+      height: auto;
+      font-size: 1rem;
+    }
+    .scale-btn {
+      display: none;
+    }
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 45px;
+      height: auto;
+      font-size: 1rem;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+  }
+
+  .durumagi-container-japanese {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+
+    div.durumagi-box-japanese {
+      position: relative;
+    }
+    div.content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 0.7rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-050') /* was: 0.5rem */;
+    }
+    .scale-btn-japanese {
+      display: none;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.5rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 40px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-050') /* was: 0.5rem */;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(0.5rem, 500);
+    }
+  }
+}
+
+//! 반응형 웹브라우저
+//~ 디바이스
+@media screen and (min-width: 1025px) and (max-width: 1366px) {
+  .durumagi-container {
+    width: 50%;
+    min-width: 100px;
+    height: 80%;
+    &.initial {
+      top: 50%;
+      height: 80%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 50%;
+    }
+    .durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    .content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1.7rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box {
+    .scale-btn:first-child {
+      display: none;
+    }
+    .scale-btn {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1.4rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 70px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1.4rem, 500);
+    }
+  }
+
+  .durumagi-container-japanese {
+    width: 50%;
+    min-width: 100px;
+    height: 80%;
+    @include App.position-absolute-right-half();
+    &.initial {
+      top: 50%;
+      height: 80%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 50%;
+    }
+    .durumagi-box-japanese {
+      position: relative;
+    }
+    .content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 1.1rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: none;
+    }
+    .scale-btn-japanese {
+      width: auto;
+      height: auto;
+      font-size: 1rem;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 80px;
+      height: auto;
+      font-size: 1rem;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+  }
+}
+//~ 태블릿, 아이패드, 아이패드 프로
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .durumagi-container {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    .content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1.7rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box {
+    .scale-btn:first-child {
+      display: block;
+    }
+    .scale-btn {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1.4rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 100px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1.4rem, 500);
+    }
+  }
+
+  .durumagi-container-japanese {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+
+    .durumagi-box-japanese {
+      position: relative;
+    }
+    .content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 1.1rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: block;
+    }
+    .scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      font-size: 1rem;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 100px;
+      height: auto;
+      font-size: 1rem;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+  }
+}
+
+//~ 481px ~ 768px 및 태블릿
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .durumagi-container {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    .content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1.6rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box {
+    .scale-btn:first-child {
+      display: block;
+    }
+    .scale-btn {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1.4rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 75px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1.4rem, 500);
+    }
+  }
+
+  .durumagi-container-japanese {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box-japanese {
+      position: relative;
+    }
+    .content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 1.1rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: block;
+    }
+    .scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      font-size: 1rem;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 70px;
+      height: auto;
+      font-size: 1rem;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+  }
+}
+
+//~ IPhone 14 Pro Max(430px)
+@media screen and (min-width: 415px) and (max-width: 480px) {
+  .durumagi-container {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    .content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1.4rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box {
+    .scale-btn:first-child {
+      display: block;
+    }
+    .scale-btn {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-130') /* was: 1.3rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1.3rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 60px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-130') /* was: 1.3rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1.3rem, 500);
+    }
+  }
+
+  .durumagi-container-japanese {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box-japanese {
+      position: relative;
+    }
+    .content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 1rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: block;
+    }
+    .scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-065') /* was: 0.65rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.65rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 40px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-065') /* was: 0.65rem */;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(0.65rem, 500);
+    }
+  }
+}
+
+//~ 아이폰XR
+@media screen and (min-width: 376px) and (max-width: 414px) {
+  .durumagi-container {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    .content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1.3rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box {
+    .scale-btn:first-child {
+      display: block;
+    }
+    .scale-btn {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-110') /* was: 1.1rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1.1rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 50px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-110') /* was: 1.1rem */;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1.1rem, 500);
+    }
+  }
+
+  .durumagi-container-japanese {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box-japanese {
+      position: relative;
+    }
+    div.content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 0.8rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: block;
+    }
+    .scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-070') /* was: 0.7rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.7rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 40px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-070') /* was: 0.7rem */;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(0.7rem, 500);
+    }
+  }
+}
+
+//~ 아이폰 SE
+@media screen and (min-width: 281px) and (max-width: 375px) {
+  .durumagi-container {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    .content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box {
+    .scale-btn:first-child {
+      display: none;
+    }
+    .scale-btn {
+      width: auto;
+      height: auto;
+      font-size: 1rem;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 45px;
+      height: auto;
+      font-size: 1rem;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+  }
+
+  .durumagi-container-japanese {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box-japanese {
+      position: relative;
+    }
+    div.content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 0.7rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: none;
+    }
+    .scale-btn-japanese {
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-070') /* was: 0.7rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.7rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 40px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-070') /* was: 0.7rem */;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(0.7rem, 500);
+    }
+  }
+}
+
+//~ 아이폰 SE
+@media screen and (min-width: 346px) and (max-width: 375px) {
+  .btn-box {
+    .scale-btn:first-child {
+      display: block;
+    }
+    .scale-btn {
+      width: auto;
+      height: auto;
+      font-size: 1rem;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+  }
+  .btn-box-japanese {
+    height: 10%;
+    .scale-btn-japanese:first-child {
+      display: block;
+    }
+    .scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-070') /* was: 0.7rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.7rem, 500);
+    }
+  }
+}
+
+//~ 아이폰 SE (min은 이상, max는 미만)
+@media screen and (min-width: 290px) and (max-width: 346px) {
+  .durumagi-container-japanese {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box-japanese {
+      position: relative;
+    }
+    div.content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 0.7rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: none;
+    }
+    .scale-btn-japanese {
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-055') /* was: 0.55rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.55rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 40px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-070') /* was: 0.7rem */;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(0.7rem, 500);
+    }
+  }
+}
+
+//~ 아이폰 SE
+@media screen and (min-width: 281px) and (max-width: 290px) {
+  .durumagi-container-japanese {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box-japanese {
+      position: relative;
+    }
+    div.content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 0.7rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: none;
+    }
+    .scale-btn-japanese {
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-055') /* was: 0.55rem */;
+      @include App.flex-box-center(center);
+      text-align: center;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.55rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 40px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-060') /* was: 0.6rem */;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(0.6rem, 500);
+    }
+  }
+}
+
+//~ 갤럭시 폴드
+@media screen and (max-width: 280px) {
+  .durumagi-container {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+    .durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    .content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box {
+    .scale-btn:first-child {
+      display: block;
+      width: auto;
+      height: auto;
+      font-size: 1rem;
+    }
+    .scale-btn {
+      display: none;
+    }
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 45px;
+      height: auto;
+      font-size: 1rem;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+  }
+
+  .durumagi-container-japanese {
+    width: 100%;
+    min-width: 100px;
+    height: 50%;
+    @include App.position-absolute-bottom-half();
+    &.initial {
+      top: 50%;
+      height: 50%;
+    }
+
+    &.heightUp {
+      height: 100%;
+      top: 0;
+    }
+
+    div.durumagi-box-japanese {
+      position: relative;
+    }
+    div.content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 85%, 15px, 0.7rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  .btn-box-japanese {
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    .scale-btn-japanese:first-child {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-050') /* was: 0.5rem */;
+    }
+    .scale-btn-japanese {
+      display: none;
+    }
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.5rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 40px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-050') /* was: 0.5rem */;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(0.5rem, 500);
+    }
+  }
+}
+
+//* 아이패드 프로 가로
+@media screen and (orientation: landscape) and (min-device-width: 1025px) and (max-device-width: 1366px) {
+  div.durumagi-container {
+    width: 50%;
+    min-width: 100px;
+    height: 85%;
+    min-height: calc(100% - 120px);
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    transform: translate(0%, 0%);
+    // transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+    &.initial {
+      top: 50%;
+      transform: translate(0%, -50%);
+      height: 80%;
+    }
+
+    &.heightUp {
+      top: 50%;
+      transform: translate(0%, -50%);
+      height: 80%;
+    }
+
+    div.durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    div.content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1.6rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  div.btn-box {
+    height: 10%;
+    bottom: 0;
+    margin: 0;
+    .scale-btn:first-child {
+      display: none;
+    }
+    .scale-btn {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-200') /* was: 2rem */;
+    }
+
+    .scale-btn:hover {
+      @include durumagi-btn-hover(2rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-200') /* was: 2rem */;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(2rem, 500);
+    }
+  }
+
+  div.durumagi-container-japanese {
+    width: 50%;
+    min-width: 100px;
+    height: 85%;
+    min-height: calc(100% - 120px);
+    @include App.position-absolute-right-half();
+    position: absolute;
+    transform: translate(0%, 0%);
+    // transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+    &.initial {
+      top: 50%;
+      transform: translate(0%, -50%);
+      height: 80%;
+    }
+
+    &.heightUp {
+      top: 50%;
+      transform: translate(0%, -50%);
+      height: 80%;
+    }
+
+    div.durumagi-box-japanese {
+      position: relative;
+      height: 70%;
+    }
+    div.content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 80%, 15px, 1.4rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  div.btn-box-japanese {
+    height: 10%;
+    bottom: 0;
+    margin: 0;
+    .scale-btn-japanese:first-child {
+      display: none;
+    }
+    .scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-120') /* was: 1.2rem */;
+    }
+
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(1.2rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 50px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-120') /* was: 1.2rem */;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(1.2rem, 500);
+    }
+  }
+}
+
+//* 태블릿 아이패드 가로
+@media screen and (orientation: landscape) and (min-device-width: 933px) and (max-device-width: 1024px) {
+  div.durumagi-container {
+    width: 50%;
+    min-width: 100px;
+    height: 85%;
+    min-height: calc(100% - 120px);
+    position: absolute;
+    top: 0%;
+    right: 0px;
+    transform: translate(0%, 0%);
+    //! navbar, footer 없애기 전 기존 설정(위의것 전부다 저럼. japanese도)
+    // top: 50px;
+    // right: 0px;
+    // transform: translate(0%, 0%);
+    // transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+    &.initial {
+      top: 50%;
+      transform: translate(0%, -50%);
+      height: 80%;
+    }
+
+    &.heightUp {
+      top: 50%;
+      transform: translate(0%, -50%);
+      height: 80%;
+    }
+
+    div.durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    div.content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1.4rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  div.btn-box {
+    height: 10%;
+    bottom: 0;
+    margin: 0;
+    .scale-btn:first-child {
+      display: none;
+    }
+    .scale-btn {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+    }
+
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1.4rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 70px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1.4rem, 500);
+    }
+  }
+
+  div.durumagi-container-japanese {
+    width: 50%;
+    min-width: 100px;
+    height: 85%;
+    min-height: calc(100% - 120px);
+    @include App.position-absolute-right-half();
+    position: absolute;
+    transform: translate(0%, 0%);
+    // transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+    &.initial {
+      top: 50%;
+      transform: translate(0%, -50%);
+      height: 80%;
+    }
+
+    &.heightUp {
+      top: 50%;
+      transform: translate(0%, -50%);
+      height: 80%;
+    }
+    div.durumagi-box-japanese {
+      position: relative;
+      height: 70%;
+    }
+    div.content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 80%, 15px, 1.1rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  div.btn-box-japanese {
+    height: 10%;
+    bottom: 0;
+    margin: 0;
+    .scale-btn-japanese:first-child {
+      display: none;
+    }
+    .scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      font-size: 1rem;
+    }
+
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 50px;
+      height: auto;
+      font-size: 1rem;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+  }
+}
+
+//* IPhon 14 Pro Max 가로모드
+@media screen and (orientation: landscape) and (min-device-width: 897px) and (max-device-width: 932px) {
+  div.durumagi-container {
+    width: 50%;
+    min-width: 100px;
+    height: 100%;
+    @include App.position-absolute-right-half();
+    position: absolute;
+    // transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+    &.initial {
+      top: 50%;
+      height: 100%;
+    }
+
+    &.heightUp {
+      top: 50%;
+      height: 100%;
+    }
+
+    div.durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    div.content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1.4rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  div.btn-box {
+    height: 10%;
+    bottom: 0;
+    margin: 0;
+    .scale-btn:first-child {
+      display: none;
+    }
+    .scale-btn {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-120') /* was: 1.2rem */;
+    }
+
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1.2rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 50px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-120') /* was: 1.2rem */;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1.2rem, 500);
+    }
+  }
+
+  div.durumagi-container-japanese {
+    width: 50%;
+    min-width: 100px;
+    height: 100%;
+    @include App.position-absolute-right-half();
+    position: absolute;
+    // transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+    &.initial {
+      top: 50%;
+      height: 100%;
+    }
+
+    &.heightUp {
+      top: 50%;
+      height: 100%;
+    }
+    div.durumagi-box-japanese {
+      position: relative;
+      height: 70%;
+    }
+    div.content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 80%, 15px, 0.9rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  div.btn-box-japanese {
+    height: 10%;
+    bottom: 0;
+    margin: 0;
+    .scale-btn-japanese:first-child {
+      display: none;
+    }
+    .scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-070') /* was: 0.7rem */;
+    }
+
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.7rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 50px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-070') /* was: 0.7rem */;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(0.7rem, 500);
+    }
+  }
+}
+
+//* 아이폰XR 가로모드r
+@media screen and (orientation: landscape) and (min-device-width: 668px) and (max-device-width: 896px) {
+  div.durumagi-container {
+    width: 50%;
+    min-width: 100px;
+    height: 100%;
+    @include App.position-absolute-right-half();
+    position: absolute;
+    // transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+    &.initial {
+      top: 50%;
+      height: 100%;
+    }
+
+    &.heightUp {
+      top: 50%;
+      height: 100%;
+    }
+
+    div.durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    div.content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1.2rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  div.btn-box {
+    height: 10%;
+    bottom: 0;
+    margin: 0;
+    .scale-btn:first-child {
+      display: none;
+    }
+    .scale-btn {
+      display: block;
+      width: auto;
+      height: auto;
+      font-size: 1rem;
+    }
+
+    .scale-btn:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 45px;
+      height: auto;
+      font-size: 1rem;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(1rem, 500);
+    }
+  }
+
+  div.durumagi-container-japanese {
+    width: 50%;
+    min-width: 100px;
+    height: 90%;
+    @include App.position-absolute-right-half();
+    position: absolute;
+    // transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+    &.initial {
+      top: 50%;
+      height: 100%;
+    }
+
+    &.heightUp {
+      top: 50%;
+      height: 100%;
+    }
+    div.durumagi-box-japanese {
+      position: relative;
+      height: 70%;
+    }
+    div.content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 80%, 15px, 0.8rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  div.btn-box-japanese {
+    height: 10%;
+    bottom: 0;
+    margin: 0;
+    .scale-btn-japanese:first-child {
+      display: none;
+    }
+    .scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-065') /* was: 0.65rem */;
+    }
+
+    .scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.65rem, 500);
+    }
+    .cancel-btn-japanese,
+    .text-save-btn-japanese {
+      width: auto;
+      min-width: 45px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-065') /* was: 0.65rem */;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(0.65rem, 500);
+    }
+  }
+}
+
+//* 아이폰SE 가로모드
+@media screen and (orientation: landscape) and (min-device-width: 654px) and (max-device-width: 667px) {
+  div.durumagi-container {
+    width: 50%;
+    min-width: 100px;
+    height: 100%;
+    @include App.position-absolute-right-half();
+    position: absolute;
+    // transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+    &.initial {
+      top: 50%;
+      height: 100%;
+    }
+
+    &.heightUp {
+      top: 50%;
+      height: 100%;
+    }
+
+    div.durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    div.content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+
+  div.btn-box {
+    height: 10%;
+    bottom: 0;
+    margin: 0;
+    .scale-btn:first-child {
+      display: none;
+    }
+    .scale-btn {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-080') /* was: 0.8rem */;
+    }
+
+    .scale-btn:hover {
+      @include durumagi-btn-hover(0.8rem, 500);
+    }
+    .cancel-btn,
+    .text-save-btn {
+      width: auto;
+      min-width: 45px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-080') /* was: 0.8rem */;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(0.8rem, 500);
+    }
+  }
+
+  div.durumagi-container-japanese {
+    width: 50%;
+    min-width: 100px;
+    height: 100%;
+    @include App.position-absolute-right-half();
+    position: absolute;
+    // transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+    &.initial {
+      top: 50%;
+      height: 100%;
+    }
+
+    &.heightUp {
+      top: 50%;
+      height: 100%;
+    }
+    div.durumagi-box-japanese {
+      position: relative;
+      height: 70%;
+    }
+    div.content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 80%, 15px, 0.7rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  div.btn-box-japanese {
+    height: 10%;
+    bottom: 0;
+    margin: 0;
+    button.scale-btn-japanese:first-child {
+      display: none;
+    }
+    button.scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-050') /* was: 0.5rem */;
+    }
+
+    button.scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.5rem, 500);
+    }
+    button.cancel-btn-japanese,
+    button.text-save-btn-japanese {
+      width: auto;
+      min-width: 40px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-050') /* was: 0.5rem */;
+    }
+    .cancel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(0.5rem, 500);
+    }
+  }
+}
+
+//* 갤럭시 폴드 가로모드
+@media screen and (orientation: landscape) and (max-device-width: 653px) {
+  div.durumagi-container {
+    width: 50%;
+    min-width: 100px;
+    height: 100%;
+    @include App.position-absolute-right-half();
+    position: absolute;
+    // transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+    &.initial {
+      top: 50%;
+      height: 100%;
+    }
+
+    &.heightUp {
+      top: 50%;
+      height: 100%;
+    }
+
+    div.durumagi-box {
+      height: 70%;
+      position: relative;
+    }
+    div.content {
+      position: relative;
+      @include durumagi-content-without-japanse(100%, 80%, 15px, 1rem);
+    }
+    @include App.scrollBar-custom-className(
+      content,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  div.btn-box {
+    height: 10%;
+    bottom: 0;
+    margin: 0;
+    button.scale-btn:first-child {
+      display: none;
+    }
+    button.scale-btn {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-080') /* was: 0.8rem */;
+    }
+
+    button.scale-btn:hover {
+      @include durumagi-btn-hover(0.8rem, 500);
+    }
+    button.cancel-btn,
+    button.text-save-btn {
+      width: auto;
+      min-width: 40px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-080') /* was: 0.8rem */;
+    }
+    .cancel-btn:hover,
+    .text-save-btn:hover {
+      @include durumagi-btn-hover(0.8rem, 500);
+    }
+  }
+
+  div.durumagi-container-japanese {
+    width: 50%;
+    min-width: 100px;
+    height: 100%;
+    @include App.position-absolute-right-half();
+    position: absolute;
+    // transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+    &.initial {
+      top: 50%;
+      height: 100%;
+    }
+
+    &.heightUp {
+      top: 50%;
+      height: 100%;
+    }
+    div.durumagi-box-japanese {
+      position: relative;
+      height: 70%;
+    }
+    div.content-japanese {
+      position: relative;
+      @include durumagi-content-japanse(100%, 80%, 15px, 0.7rem);
+    }
+    @include App.scrollBar-custom-className(
+      content-japanese,
+      40px,
+      10px,
+      rgba(139, 92, 246, 1),
+      rgba(139, 92, 246, 0.3)
+    );
+  }
+  div.btn-box-japanese {
+    height: 10%;
+    bottom: 0;
+    margin: 0;
+
+    button.scale-btn-japanese:first-child {
+      display: none;
+    }
+    button.scale-btn-japanese {
+      display: block;
+      width: auto;
+      height: auto;
+      @include FontExact.exact-korean-font('size-050') /* was: 0.5rem */;
+    }
+
+    button.scale-btn-japanese:hover {
+      @include durumagi-btn-hover(0.5rem, 500);
+    }
+    button.cancel-btn-japanese,
+    button.text-save-btn-japanese {
+      width: auto;
+      min-width: 40px;
+      height: auto;
+      @include FontExact.exact-korean-font('size-050') /* was: 0.5rem */;
+    }
+    .caㅋncel-btn-japanese:hover,
+    .text-save-btn-japanese:hover {
+      @include durumagi-btn-hover(0.5rem, 500);
+    }
+  }
+}
+
+//! 여기
+
+// @use '../../styles/scss/App.module.scss';
+// @use '../../styles/scss/Font-Exact.module.scss' as FontExact;  // 이미 위에 있음
+// @use '../../pages/TarotCardForm/TarotCardSpreadForm.module.scss';
+
+// // ============================================
+// // Configuration Maps
+// // ============================================
+
+// // Breakpoint definitions
+// $breakpoints: (
+//   'desktop-large': (
+//     min: 1025px,
+//     max: 1366px,
+//     type: 'device',
+//   ),
+//   'tablet': (
+//     min: 769px,
+//     max: 1024px,
+//     type: 'device',
+//   ),
+//   'tablet-small': (
+//     min: 481px,
+//     max: 768px,
+//     type: 'device',
+//   ),
+//   'mobile-large': (
+//     min: 415px,
+//     max: 480px,
+//     type: 'device',
+//   ),
+//   'mobile-medium': (
+//     min: 376px,
+//     max: 414px,
+//     type: 'device',
+//   ),
+//   'mobile-se': (
+//     min: 281px,
+//     max: 375px,
+//     type: 'device',
+//   ),
+//   'mobile-se-medium': (
+//     min: 346px,
+//     max: 375px,
+//     type: 'device',
+//   ),
+//   'mobile-se-small': (
+//     min: 290px,
+//     max: 346px,
+//     type: 'device',
+//   ),
+//   'mobile-se-tiny': (
+//     min: 281px,
+//     max: 290px,
+//     type: 'device',
+//   ),
+//   'mobile-fold': (
+//     max: 280px,
+//     type: 'device',
+//   ),
+//   'browser-desktop-large': (
+//     min: 1025px,
+//     max: 1366px,
+//     type: 'browser',
+//   ),
+//   'browser-tablet': (
+//     min: 769px,
+//     max: 1024px,
+//     type: 'browser',
+//   ),
+//   'browser-tablet-small': (
+//     min: 481px,
+//     max: 768px,
+//     type: 'browser',
+//   ),
+//   'browser-mobile-large': (
+//     min: 415px,
+//     max: 480px,
+//     type: 'browser',
+//   ),
+//   'browser-mobile-medium': (
+//     min: 376px,
+//     max: 414px,
+//     type: 'browser',
+//   ),
+//   'browser-mobile-se': (
+//     min: 281px,
+//     max: 375px,
+//     type: 'browser',
+//   ),
+//   'browser-mobile-se-medium': (
+//     min: 346px,
+//     max: 375px,
+//     type: 'browser',
+//   ),
+//   'browser-mobile-se-small': (
+//     min: 290px,
+//     max: 346px,
+//     type: 'browser',
+//   ),
+//   'browser-mobile-se-tiny': (
+//     min: 281px,
+//     max: 290px,
+//     type: 'browser',
+//   ),
+//   'browser-mobile-fold': (
+//     max: 280px,
+//     type: 'browser',
+//   ),
+//   'landscape-desktop': (
+//     min: 1025px,
+//     max: 1366px,
+//     orientation: 'landscape',
+//   ),
+//   'landscape-tablet': (
+//     min: 933px,
+//     max: 1024px,
+//     orientation: 'landscape',
+//   ),
+//   'landscape-mobile-large': (
+//     min: 897px,
+//     max: 932px,
+//     orientation: 'landscape',
+//   ),
+//   'landscape-mobile-medium': (
+//     min: 668px,
+//     max: 896px,
+//     orientation: 'landscape',
+//   ),
+//   'landscape-mobile-se': (
+//     min: 654px,
+//     max: 667px,
+//     orientation: 'landscape',
+//   ),
+//   'landscape-mobile-fold': (
+//     max: 653px,
+//     orientation: 'landscape',
+//   ),
+// );
+
+// // Responsive configuration
+// $responsive-config: (
+//   'default': (
+//     'desktop-large': (
+//       width: 50%,
+//       min-width: 100px,
+//       height: 80%,
+//       position: 'right-half',
+//       @include FontExact.exact-korean-font('size-170')  /* was: 1.7rem */,
+//       btn-font: 1.4rem,
+//       scrollbar: 15px,
+//       box-height: 70%,
+//       content-height: 80%,
+//       hide-first-scale: true,
+//     ),
+//     'tablet': (
+//       width: 100%,
+//       min-width: 100px,
+//       height: 50%,
+//       position: 'bottom-half',
+//       @include FontExact.exact-korean-font('size-170')  /* was: 1.7rem */,
+//       btn-font: 1.4rem,
+//       scrollbar: 5px,
+//       box-height: 70%,
+//       content-height: 80%,
+//       hide-first-scale: false,
+//       btn-min-width: 100px,
+//     ),
+//     'tablet-small': (
+//       width: 100%,
+//       min-width: 100px,
+//       height: 50%,
+//       position: 'bottom-half',
+//       @include FontExact.exact-korean-font('size-160')  /* was: 1.6rem */,
+//       btn-font: 1.2rem,
+//       scrollbar: 5px,
+//       box-height: 70%,
+//       content-height: 80%,
+//       hide-first-scale: false,
+//       btn-min-width: 100px,
+//     ),
+//     'mobile-large': (
+//       width: 100%,
+//       min-width: 100px,
+//       height: 50%,
+//       position: 'bottom-half',
+//       @include FontExact.exact-korean-font('size-140')  /* was: 1.4rem */,
+//       btn-font: 1rem,
+//       scrollbar: 5px,
+//       box-height: 70%,
+//       content-height: 80%,
+//       hide-first-scale: false,
+//       btn-min-width: 60px,
+//       btn-max-height: 30px,
+//     ),
+//     'mobile-medium': (
+//       width: 100%,
+//       min-width: 100px,
+//       height: 50%,
+//       position: 'bottom-half',
+//       @include FontExact.exact-korean-font('size-130')  /* was: 1.3rem */,
+//       btn-font: 1.1rem,
+//       scrollbar: 5px,
+//       box-height: 70%,
+//       content-height: 80%,
+//       hide-first-scale: false,
+//       btn-min-width: 60px,
+//       btn-max-height: 30px,
+//     ),
+//     'mobile-se': (
+//       width: 100%,
+//       min-width: 100px,
+//       height: 50%,
+//       position: 'bottom-half',
+//       font-size: 1rem,
+//       btn-font: 0.8rem,
+//       scrollbar: 5px,
+//       box-height: 70%,
+//       content-height: 80%,
+//       hide-first-scale: true,
+//       btn-min-width: 60px,
+//       btn-max-height: 30px,
+//     ),
+//     'mobile-se-medium': (
+//       hide-first-scale: false,
+//     ),
+//     'mobile-fold': (
+//       width: 100%,
+//       min-width: 100px,
+//       height: 50%,
+//       position: 'bottom-half',
+//       font-size: 1rem,
+//       btn-font: 0.8rem,
+//       scrollbar: 5px,
+//       box-height: 70%,
+//       content-height: 80%,
+//       hide-first-scale: false,
+//       btn-min-width: 60px,
+//       btn-max-height: 30px,
+//     ),
+//     'landscape-desktop': (
+//       width: 50%,
+//       height: 85%,
+//       min-height: calc(100% - 120px),
+//       position: 'right-half',
+//       @include FontExact.exact-korean-font('size-160')  /* was: 1.6rem */,
+//       btn-font: 2rem,
+//       scrollbar: 15px,
+//       hide-first-scale: true,
+//     ),
+//     'landscape-tablet': (
+//       width: 50%,
+//       height: 85%,
+//       position: 'right-half',
+//       @include FontExact.exact-korean-font('size-140')  /* was: 1.4rem */,
+//       btn-font: 1.4rem,
+//       scrollbar: 15px,
+//       hide-first-scale: true,
+//     ),
+//     'landscape-mobile-large': (
+//       width: 50%,
+//       height: 100%,
+//       position: 'right-half',
+//       @include FontExact.exact-korean-font('size-140')  /* was: 1.4rem */,
+//       btn-font: 1.2rem,
+//       scrollbar: 15px,
+//       hide-first-scale: true,
+//     ),
+//     'landscape-mobile-medium': (
+//       width: 50%,
+//       height: 100%,
+//       position: 'right-half',
+//       @include FontExact.exact-korean-font('size-120')  /* was: 1.2rem */,
+//       btn-font: 1rem,
+//       scrollbar: 15px,
+//       hide-first-scale: true,
+//     ),
+//     'landscape-mobile-se': (
+//       width: 50%,
+//       height: 100%,
+//       position: 'right-half',
+//       font-size: 1rem,
+//       btn-font: 0.8rem,
+//       scrollbar: 15px,
+//       hide-first-scale: true,
+//     ),
+//     'landscape-mobile-fold': (
+//       width: 50%,
+//       height: 100%,
+//       position: 'right-half',
+//       font-size: 1rem,
+//       btn-font: 0.8rem,
+//       scrollbar: 15px,
+//       hide-first-scale: true,
+//     ),
+//   ),
+//   'japanese': (
+//     'desktop-large': (
+//       @include FontExact.exact-korean-font('size-110')  /* was: 1.1rem */,
+//       btn-font: 1rem,
+//       btn-min-width: 80px,
+//     ),
+//     'tablet': (
+//       @include FontExact.exact-korean-font('size-110')  /* was: 1.1rem */,
+//       btn-font: 1rem,
+//       btn-min-width: 40px,
+//     ),
+//     'tablet-small': (
+//       @include FontExact.exact-korean-font('size-110')  /* was: 1.1rem */,
+//       btn-font: 0.8rem,
+//       btn-min-width: 40px,
+//     ),
+//     'mobile-large': (
+//       font-size: 1rem,
+//       btn-font: 0.65rem,
+//       btn-min-width: 50px,
+//     ),
+//     'mobile-medium': (
+//       @include FontExact.exact-korean-font('size-080')  /* was: 0.8rem */,
+//       btn-font: 0.7rem,
+//       btn-min-width: 50px,
+//     ),
+//     'mobile-se': (
+//       @include FontExact.exact-korean-font('size-070')  /* was: 0.7rem */,
+//       btn-font: 0.6rem,
+//       scale-font: 0.55rem,
+//       btn-min-width: 50px,
+//     ),
+//     'mobile-se-small': (
+//       scale-font: 0.55rem,
+//       btn-font: 0.7rem,
+//     ),
+//     'mobile-se-tiny': (
+//       btn-font: 0.6rem,
+//     ),
+//     'mobile-fold': (
+//       @include FontExact.exact-korean-font('size-070')  /* was: 0.7rem */,
+//       btn-font: 0.5rem,
+//       scale-font: 0.5rem,
+//       btn-min-width: 50px,
+//     ),
+//     'landscape-desktop': (
+//       @include FontExact.exact-korean-font('size-140')  /* was: 1.4rem */,
+//       btn-font: 1.2rem,
+//     ),
+//     'landscape-tablet': (
+//       @include FontExact.exact-korean-font('size-110')  /* was: 1.1rem */,
+//       btn-font: 0.9rem,
+//     ),
+//     'landscape-mobile-large': (
+//       @include FontExact.exact-korean-font('size-090')  /* was: 0.9rem */,
+//       btn-font: 0.7rem,
+//     ),
+//     'landscape-mobile-medium': (
+//       @include FontExact.exact-korean-font('size-080')  /* was: 0.8rem */,
+//       btn-font: 0.65rem,
+//     ),
+//     'landscape-mobile-se': (
+//       @include FontExact.exact-korean-font('size-070')  /* was: 0.7rem */,
+//       btn-font: 0.5rem,
+//     ),
+//     'landscape-mobile-fold': (
+//       @include FontExact.exact-korean-font('size-070')  /* was: 0.7rem */,
+//       btn-font: 0.5rem,
+//     ),
+//   ),
+// );
+
+// // ============================================
+// // Placeholders
+// // ============================================
+
+// %durumagi-container {
+//   width: 40%;
+//   min-width: 550px;
+//   height: 80%;
+//   background-image: url('/assets/images/durumagi4.png');
+//   background-size: 100% 100%;
+//   background-repeat: no-repeat;
+//   background-attachment: fixed;
+//   @include App.position-absolute-right-half();
+//   @include App.flex-box-center(column);
+// }
+
+// %durumagi-box {
+//   width: 66%;
+//   height: 70%;
+//   position: relative;
+//   @include App.flex-box-center(column);
+//   justify-content: space-between;
+// }
+
+// %durumagi-btn-box {
+//   width: 100%;
+//   height: 10%;
+//   @include App.flex-box-center(row);
+//   justify-content: end;
+//   position: absolute;
+//   bottom: 0;
+//   margin: 0;
+// }
+
+// // ============================================
+// // Mixins
+// // ============================================
+
+// @mixin durumagi-btn-hover($font-size, $font-weight) {
+//   font-size: $font-size;
+//   font-weight: $font-weight;
+//   color: rgb(177, 40, 40);
+//   background-color: gold;
+// }
+
+// @mixin durumagi-content($font-size, $is-japanese: false) {
+//   width: 100%;
+//   height: 85%;
+//   overflow-y: auto;
+//   position: absolute;
+//   top: 0%;
+//   color: black;
+
+//   @if $is-japanese {
+//     @include App.potta-font($font-size);
+//     line-height: 1.6;
+//   } @else {
+//     @include App.dongle-font($font-size);
+//     line-height: 1.25;
+//   }
+
+//   p {
+//     margin-bottom: 15px;
+//   }
+// }
+
+// @mixin content-buttons {
+//   .ads {
+//     background-color: #614051;
+//     border: #614051;
+
+//     &:hover {
+//       background-color: #000080;
+//       color: gold;
+//     }
+//   }
+
+//   .card-meaning {
+//     background-color: #000080;
+//     border: #000080;
+
+//     &:hover {
+//       background-color: #614051;
+//       color: gold;
+//     }
+//   }
+// }
+
+// @mixin media-query($breakpoint-name) {
+//   $breakpoint: map-get($breakpoints, $breakpoint-name);
+
+//   @if map-has-key($breakpoint, 'orientation') {
+//     // Landscape queries
+//     $orientation: map-get($breakpoint, 'orientation');
+//     @if map-has-key($breakpoint, 'min') and map-has-key($breakpoint, 'max') {
+//       @media screen and (min-device-width: map-get($breakpoint, 'min')) and (max-device-width: map-get($breakpoint, 'max')) and (orientation: #{$orientation}) {
+//         @content;
+//       }
+//     } @else if map-has-key($breakpoint, 'max') {
+//       @media screen and (max-device-width: map-get($breakpoint, 'max')) and (orientation: #{$orientation}) {
+//         @content;
+//       }
+//     }
+//   } @else if map-get($breakpoint, 'type') == 'device' {
+//     // Device queries
+//     @if map-has-key($breakpoint, 'min') and map-has-key($breakpoint, 'max') {
+//       @media screen and (min-device-width: map-get($breakpoint, 'min')) and (max-device-width: map-get($breakpoint, 'max')) {
+//         @content;
+//       }
+//     } @else if map-has-key($breakpoint, 'max') {
+//       @media screen and (max-device-width: map-get($breakpoint, 'max')) {
+//         @content;
+//       }
+//     }
+//   } @else if map-get($breakpoint, 'type') == 'browser' {
+//     // Browser queries
+//     @if map-has-key($breakpoint, 'min') and map-has-key($breakpoint, 'max') {
+//       @media screen and (min-width: map-get($breakpoint, 'min')) and (max-width: map-get($breakpoint, 'max')) {
+//         @content;
+//       }
+//     } @else if map-has-key($breakpoint, 'max') {
+//       @media screen and (max-width: map-get($breakpoint, 'max')) {
+//         @content;
+//       }
+//     }
+//   }
+// }
+
+// @mixin apply-container-position($position) {
+//   @if $position == 'right-half' {
+//     @include App.position-absolute-right-half();
+//   } @else if $position == 'bottom-half' {
+//     @include App.position-absolute-bottom-half();
+//   }
+// }
+
+// @mixin responsive-container($config, $is-japanese: false) {
+//   @if map-has-key($config, 'width') {
+//     width: map-get($config, 'width');
+//   }
+//   @if map-has-key($config, 'min-width') {
+//     min-width: map-get($config, 'min-width');
+//   }
+//   @if map-has-key($config, 'height') {
+//     height: map-get($config, 'height');
+//   }
+//   @if map-has-key($config, 'min-height') {
+//     min-height: map-get($config, 'min-height');
+//   }
+//   @if map-has-key($config, 'position') {
+//     @include apply-container-position(map-get($config, 'position'));
+//   }
+
+//   &.initial {
+//     top: if(map-get($config, 'position') == 'bottom-half', 50%, 50%);
+//     height: if(map-has-key($config, 'height'), map-get($config, 'height'), 80%);
+//   }
+
+//   &.heightUp {
+//     height: if(
+//       map-get($config, 'position') == 'bottom-half',
+//       100%,
+//       if(map-has-key($config, 'height'), 100%, 100%)
+//     );
+//     top: if(map-get($config, 'position') == 'bottom-half', 0, 50%);
+//   }
+
+//   @if $is-japanese {
+//     .durumagi-box-japanese {
+//       position: relative;
+//       @if map-has-key($config, 'box-height') {
+//         height: map-get($config, 'box-height');
+//       }
+//     }
+
+//     .content-japanese {
+//       position: relative;
+//       @if map-has-key($config, 'content-height') {
+//         height: map-get($config, 'content-height');
+//       }
+//       @if map-has-key($config, 'font-size') {
+//         @include durumagi-content(map-get($config, 'font-size'), true);
+//       }
+//       @include content-buttons;
+//     }
+
+//     @if map-has-key($config, 'scrollbar') {
+//       @include App.scrollBar-custom-className(
+//         content-japanese,
+//         map-get($config, 'scrollbar'),
+//         10px,
+//         rgb(177, 40, 40),
+//         lightyellow
+//       );
+//     }
+//   } @else {
+//     .durumagi-box {
+//       position: relative;
+//       @if map-has-key($config, 'box-height') {
+//         height: map-get($config, 'box-height');
+//       }
+//     }
+
+//     .content {
+//       position: relative;
+//       @if map-has-key($config, 'content-height') {
+//         height: map-get($config, 'content-height');
+//       }
+//       @if map-has-key($config, 'font-size') {
+//         @include durumagi-content(map-get($config, 'font-size'), false);
+//       }
+//       @include content-buttons;
+//     }
+
+//     @if map-has-key($config, 'scrollbar') {
+//       @include App.scrollBar-custom-className(
+//         content,
+//         map-get($config, 'scrollbar'),
+//         10px,
+//         rgb(177, 40, 40),
+//         lightyellow
+//       );
+//     }
+//   }
+// }
+
+// @mixin responsive-buttons($config, $is-japanese: false) {
+//   $btn-class-suffix: if($is-japanese, '-japanese', '');
+//   $scale-btn-class: 'scale-btn#{$btn-class-suffix}';
+//   $cancel-btn-class: 'cancel-btn#{$btn-class-suffix}';
+//   $text-save-btn-class: 'text-save-btn#{$btn-class-suffix}';
+
+//   .#{$scale-btn-class}:first-child {
+//     display: if(
+//       map-has-key($config, 'hide-first-scale') and
+//         map-get($config, 'hide-first-scale'),
+//       none,
+//       block
+//     );
+//   }
+
+//   .#{$scale-btn-class} {
+//     display: block;
+//     width: auto;
+//     height: auto;
+//     @if map-has-key($config, 'scale-font') {
+//       font-size: map-get($config, 'scale-font');
+//     } @else if map-has-key($config, 'btn-font') {
+//       font-size: map-get($config, 'btn-font');
+//     }
+//     @include App.flex-box-center(center);
+//     text-align: center;
+
+//     &:hover {
+//       @if map-has-key($config, 'scale-font') {
+//         @include durumagi-btn-hover(map-get($config, 'scale-font'), 500);
+//       } @else if map-has-key($config, 'btn-font') {
+//         @include durumagi-btn-hover(map-get($config, 'btn-font'), 500);
+//       }
+//     }
+//   }
+
+//   .#{$cancel-btn-class},
+//   .#{$text-save-btn-class} {
+//     width: if(
+//       map-has-key($config, 'btn-width'),
+//       map-get($config, 'btn-width'),
+//       auto
+//     );
+//     @if map-has-key($config, 'btn-min-width') {
+//       min-width: map-get($config, 'btn-min-width');
+//     }
+//     height: auto;
+//     @if map-has-key($config, 'btn-max-height') {
+//       max-height: map-get($config, 'btn-max-height');
+//     }
+//     @if map-has-key($config, 'btn-font') {
+//       font-size: map-get($config, 'btn-font');
+//     }
+
+//     &:hover {
+//       @if map-has-key($config, 'btn-font') {
+//         @include durumagi-btn-hover(map-get($config, 'btn-font'), 500);
+//       }
+//     }
+//   }
+// }
+
+// // ============================================
+// // Base Classes
+// // ============================================
+
+// .front {
+//   @include TarotCardSpreadForm.front();
+// }
+
+// .front-reversed {
+//   @include TarotCardSpreadForm.front-reversed();
+// }
+
+// .symbol-meaning-box {
+//   border: thick double black;
+//   border-radius: 1rem;
+//   padding: 1rem;
+// }
+
+// .flex-grow {
+//   @include App.flex-grow(1);
+// }
+
+// // ============================================
+// // Main Container Classes
+// // ============================================
+
+// .durumagi-container {
+//   @extend %durumagi-container;
+//   position: absolute;
+//   transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+
+//   &.initial {
+//     top: 50%;
+//     height: 80%;
+//   }
+
+//   &.heightUp {
+//     height: 100%;
+//     top: 50%;
+//   }
+
+//   .durumagi-box {
+//     @extend %durumagi-box;
+//   }
+
+//   .content {
+//     @include durumagi-content(1.7rem, false);
+//     @include content-buttons;
+//   }
+
+//   @include App.scrollBar-custom-className(
+//     content,
+//     20px,
+//     10px,
+//     rgb(177, 40, 40),
+//     lightyellow
+//   );
+// }
+
+// .btn-box {
+//   @extend %durumagi-btn-box;
+
+//   .scale-btn:first-child {
+//     display: none;
+//   }
+
+//   .scale-btn {
+//     width: auto;
+//     height: auto;
+//     @include FontExact.exact-korean-font('size-140')  /* was: 1.4rem */;
+//   }
+
+//   .cancel-btn,
+//   .text-save-btn {
+//     width: 20%;
+//     height: 100%;
+//     max-height: 40px;
+//     @include FontExact.exact-korean-font('size-140')  /* was: 1.4rem */;
+//   }
+
+//   .cancel-btn:hover,
+//   .text-save-btn:hover {
+//     @include durumagi-btn-hover(1.4rem, 500);
+//   }
+// }
+
+// .durumagi-container-japanese {
+//   @extend %durumagi-container;
+//   position: absolute;
+//   transition: height 0.5s ease-in-out, top 0.5s ease-in-out;
+
+//   &.initial {
+//     top: 50%;
+//     height: 80%;
+//   }
+
+//   &.heightUp {
+//     height: 100%;
+//     top: 50%;
+//   }
+
+//   .durumagi-box-japanese {
+//     @extend %durumagi-box;
+//   }
+
+//   .content-japanese {
+//     @include durumagi-content(1.1rem, true);
+//     @include content-buttons;
+//   }
+
+//   @include App.scrollBar-custom-className(
+//     content-japanese,
+//     20px,
+//     10px,
+//     rgb(177, 40, 40),
+//     lightyellow
+//   );
+// }
+
+// .btn-box-japanese {
+//   @extend %durumagi-btn-box;
+//   height: 10%;
+//   padding: 0px;
+
+//   .scale-btn-japanese:first-child {
+//     display: none;
+//   }
+
+//   .scale-btn-japanese {
+//     width: auto;
+//     height: auto;
+//     font-size: 1rem;
+//   }
+
+//   .scale-btn-japanese:hover {
+//     @include durumagi-btn-hover(1rem, 500);
+//   }
+
+//   .cancel-btn-japanese,
+//   .text-save-btn-japanese {
+//     width: 20%;
+//     min-width: 80px;
+//     height: 100%;
+//     max-height: 40px;
+//     font-size: 1rem;
+//   }
+
+//   .cancel-btn-japanese:hover,
+//   .text-save-btn-japanese:hover {
+//     @include durumagi-btn-hover(1rem, 500);
+//   }
+// }
+
+// // ============================================
+// // Responsive Styles - Device Queries
+// // ============================================
+
+// @each $breakpoint-name, $breakpoint in $breakpoints {
+//   $type: map-get($breakpoint, 'type');
+//   $orientation: map-get($breakpoint, 'orientation');
+
+//   @if $type == 'device' or $orientation {
+//     $default-config: map-get(
+//       map-get($responsive-config, 'default'),
+//       $breakpoint-name
+//     );
+//     $japanese-config: map-get(
+//       map-get($responsive-config, 'japanese'),
+//       $breakpoint-name
+//     );
+
+//     @if $default-config {
+//       @include media-query($breakpoint-name) {
+//         .durumagi-container {
+//           @include responsive-container($default-config, false);
+//         }
+
+//         .btn-box {
+//           @include responsive-buttons($default-config, false);
+//         }
+
+//         @if $japanese-config {
+//           .durumagi-container-japanese {
+//             @include responsive-container(
+//               map-merge($default-config, $japanese-config),
+//               true
+//             );
+//           }
+
+//           .btn-box-japanese {
+//             height: 10%;
+//             position: absolute;
+//             bottom: 0;
+//             @include responsive-buttons(
+//               map-merge($default-config, $japanese-config),
+//               true
+//             );
+//           }
+//         } @else {
+//           .durumagi-container-japanese {
+//             @include responsive-container($default-config, true);
+//           }
+
+//           .btn-box-japanese {
+//             height: 10%;
+//             position: absolute;
+//             bottom: 0;
+//             @include responsive-buttons($default-config, true);
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
+// // ============================================
+// // Responsive Styles - Browser Queries
+// // ============================================
+
+// @each $breakpoint-name, $breakpoint in $breakpoints {
+//   $type: map-get($breakpoint, 'type');
+
+//   @if $type == 'browser' {
+//     $base-name: str-slice($breakpoint-name, 9); // Remove 'browser-' prefix
+//     $default-config: map-get(
+//       map-get($responsive-config, 'default'),
+//       $base-name
+//     );
+//     $japanese-config: map-get(
+//       map-get($responsive-config, 'japanese'),
+//       $base-name
+//     );
+
+//     @if $default-config {
+//       @include media-query($breakpoint-name) {
+//         .durumagi-container {
+//           @include responsive-container($default-config, false);
+//         }
+
+//         .btn-box {
+//           @include responsive-buttons($default-config, false);
+//         }
+
+//         @if $japanese-config {
+//           .durumagi-container-japanese {
+//             @include responsive-container(
+//               map-merge($default-config, $japanese-config),
+//               true
+//             );
+//           }
+
+//           .btn-box-japanese {
+//             height: 10%;
+//             position: absolute;
+//             bottom: 0;
+//             @include responsive-buttons(
+//               map-merge($default-config, $japanese-config),
+//               true
+//             );
+//           }
+//         } @else {
+//           .durumagi-container-japanese {
+//             @include responsive-container($default-config, true);
+//           }
+
+//           .btn-box-japanese {
+//             height: 10%;
+//             position: absolute;
+//             bottom: 0;
+//             @include responsive-buttons($default-config, true);
+//           }
+//         }
+//       }
+//     }
+//   }
+// }

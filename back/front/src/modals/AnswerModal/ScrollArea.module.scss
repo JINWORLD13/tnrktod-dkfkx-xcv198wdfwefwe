@@ -1,0 +1,47 @@
+@import './variables.scss';
+
+.scrollArea {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+.scrollContent {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 12px;
+  margin-right: -12px;
+
+  /* Firefox */
+  scrollbar-color: #8b5cf6 rgba(45, 21, 84, 0.3);
+
+  &::-webkit-scrollbar {
+    width: 12px;
+    height: 15px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(200, 180, 200, 0.6);
+    border-radius: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--primary)),
+      hsl(var(--accent))
+    );
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+
+    &:hover {
+      background: linear-gradient(
+        180deg,
+        hsl(var(--accent)),
+        hsl(var(--primary))
+      );
+    }
+  }
+}

@@ -1,0 +1,2099 @@
+@use '../../../styles/scss/App.module.scss' as App;
+@use '../../../styles/scss/Font-Exact.module.scss' as FontExact;
+@use '../../../styles/scss/TarotCardSpreadForm.module.scss';
+
+@include App.scrollBar-custom-className(voucher-box, 10px, 10px, purple, black);
+@include App.scrollBar-custom-className(
+  voucher-box-japanese,
+  10px,
+  10px,
+  purple,
+  black
+);
+
+//! ============================================
+//! Keyframes - 우주/타로 애니메이션
+//! ============================================
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+//! Mixins for repeated patterns
+@mixin voucher-font-styles {
+  .voucher-title {
+    @include App.dongle-font(2.7rem);
+  }
+  .voucher-title.japanese-font-title {
+    @include App.potta-font(1.5rem);
+    line-height: 1.2;
+  }
+  .voucher-title.ads-card {
+    @include App.dongle-font(3rem);
+  }
+  .voucher-title.ads-card.japanese-font-title {
+    @include App.potta-font(1.5rem);
+  }
+  .japanese-font-title {
+    line-height: 1.8 !important;
+  }
+  .japanese-font-content {
+    line-height: 1.5 !important;
+  }
+}
+
+@mixin modal-padding {
+  .modal-content {
+    padding-right: 40px;
+  }
+  .modal-content-japanese {
+    padding-right: 40px;
+  }
+}
+
+@mixin purchase-button-layout {
+  .purchase-button-box {
+    width: 100%;
+    @include App.flex-box-center(row);
+    justify-content: end;
+  }
+  .purchase-button {
+    margin: 10px;
+    margin-left: 10px;
+    margin-right: 0px;
+    min-width: auto;
+  }
+  .purchase-button:last-child {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+@mixin landscape-backdrop-modal {
+  div.backdrop {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.75);
+  }
+}
+
+@mixin landscape-voucher-box {
+  div.voucher-box,
+  div.voucher-box-japanese {
+    height: 80%;
+    position: relative;
+    @include App.flex-box-center(column);
+    justify-content: start;
+  }
+}
+
+@mixin landscape-voucher-fonts {
+  div.voucher-title {
+    @include App.dongle-font(2.7rem);
+  }
+  div.voucher-title.japanese-font-title {
+    @include App.potta-font(1.5rem);
+    line-height: 1.2;
+  }
+  div.voucher-title.ads-card {
+    @include App.dongle-font(3rem);
+  }
+  div.voucher-title.ads-card.japanese-font-title {
+    @include App.potta-font(1.5rem);
+  }
+  div.japanese-font-title {
+    line-height: 3 !important;
+  }
+}
+
+//! Base styles
+.event-package-expired {
+  display: flex;
+  align-items: center;
+  color: #ffd700;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  z-index: 20;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(20, 0, 40, 0.9) 0%,
+    rgba(0, 0, 0, 0.95) 100%
+  );
+  overflow: hidden;
+
+  // 별 반짝임 효과
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(2px 2px at 20% 30%, white, transparent),
+      radial-gradient(2px 2px at 60% 70%, white, transparent),
+      radial-gradient(1px 1px at 50% 50%, white, transparent),
+      radial-gradient(1px 1px at 80% 10%, white, transparent),
+      radial-gradient(2px 2px at 90% 60%, white, transparent),
+      radial-gradient(1px 1px at 33% 80%, white, transparent),
+      radial-gradient(1px 1px at 15% 60%, white, transparent),
+      radial-gradient(2px 2px at 45% 20%, white, transparent);
+    background-size: 200% 200%;
+    animation: twinkle 4s ease-in-out infinite;
+    opacity: 0.6;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: auto;
+  min-height: 150px;
+  z-index: 100;
+  overflow: hidden;
+  @include App.flex-box-center(column);
+  justify-content: space-between;
+  border: 1px solid black;
+}
+
+.title {
+  @include App.no-select;
+  @include App.no-drag;
+  width: 100%;
+  @include App.flex-box-center(row);
+  justify-content: start;
+  p {
+    @include App.dongle-font(1.8rem);
+    margin: 10px;
+    margin-left: 20px;
+  }
+}
+
+.modal-content {
+  @include App.no-select;
+  @include App.no-drag;
+  width: 100%;
+  height: 100%;
+  margin-left: 40px;
+  margin-bottom: 40px;
+  @include App.dongle-font(1.7rem);
+}
+
+.title-japanese {
+  @include App.no-select;
+  @include App.no-drag;
+  width: 100%;
+  @include App.flex-box-center(row);
+  justify-content: start;
+  margin-bottom: 10px;
+  p {
+    @include App.potta-font(1.4rem);
+    margin: 10px;
+    margin-left: 20px;
+  }
+}
+
+.modal-content-japanese {
+  @include App.no-select;
+  @include App.no-drag;
+  width: 100%;
+  height: 100%;
+  margin-left: 40px;
+  margin-bottom: 40px;
+  @include App.potta-font(1.2rem);
+  line-height: 2;
+}
+
+.purchase-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 70%;
+  min-height: 350px;
+  z-index: 100;
+  overflow: hidden;
+  @include App.flex-box-center(column);
+  justify-content: space-between;
+
+  // 우주 그라데이션 배경
+  background: linear-gradient(
+    135deg,
+    #0a0a1a 0%,
+    #1a0a2e 25%,
+    #0f0520 50%,
+    #1a0a2e 75%,
+    #0a0a1a 100%
+  );
+
+  border: 3px solid rgba(200, 200, 255, 0.3);
+  box-shadow: 0 0 20px rgba(100, 100, 200, 0.3),
+    inset 0 0 30px rgba(50, 50, 150, 0.1);
+
+  // 모달 내부에 별 효과
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(
+        1px 1px at 10% 20%,
+        rgba(255, 255, 255, 0.6),
+        transparent
+      ),
+      radial-gradient(1px 1px at 80% 80%, rgba(255, 255, 255, 0.6), transparent),
+      radial-gradient(1px 1px at 30% 60%, rgba(255, 255, 255, 0.4), transparent),
+      radial-gradient(1px 1px at 70% 30%, rgba(255, 255, 255, 0.5), transparent),
+      radial-gradient(1px 1px at 50% 90%, rgba(255, 255, 255, 0.4), transparent),
+      radial-gradient(1px 1px at 20% 70%, rgba(255, 255, 255, 0.5), transparent),
+      radial-gradient(1px 1px at 90% 40%, rgba(255, 255, 255, 0.6), transparent);
+    background-size: 100% 100%;
+    animation: twinkle 5s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  // 모든 자식 요소를 별 위에 표시
+  & > * {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+.charge-content {
+  width: 100%;
+  height: 90%;
+  @include App.flex-box-center(column);
+}
+
+.voucher-box {
+  width: 100%;
+  height: 80%;
+  overflow: auto;
+  @include App.flex-box-center(column);
+  justify-content: start;
+  color: white;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 30, 0.3),
+    rgba(20, 10, 40, 0.2),
+    rgba(10, 10, 30, 0.3)
+  );
+}
+
+.voucher {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid rgba(100, 100, 150, 0.2);
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: linear-gradient(
+      90deg,
+      rgba(100, 100, 200, 0.08) 0%,
+      rgba(150, 100, 200, 0.05) 50%,
+      rgba(100, 100, 200, 0.08) 100%
+    );
+    border-bottom: 1px solid rgba(150, 150, 200, 0.3);
+  }
+}
+
+.voucher-info-box {
+  width: 100%;
+  flex: 1;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.voucher-title {
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: start;
+  line-height: 1;
+  @include App.dongle-font(2.7rem);
+}
+
+.voucher-title.japanese-font-title {
+  @include App.potta-font(1.5rem);
+  line-height: 1.2;
+}
+
+.voucher-title.ads-card {
+  @include App.dongle-font(3rem);
+  line-height: 1;
+}
+
+.voucher-title.ads-card.japanese-font-title {
+  @include App.potta-font(1.5rem);
+}
+
+.voucher-description {
+  white-space: pre-line;
+  color: #888;
+  margin-bottom: 5px;
+  padding-right: 10px;
+}
+
+.voucher-price {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: FontExact.get-exact-size(FontExact.$font-exact-korean, 'size-120');
+  color: #ffd700;
+}
+
+.owned-voucher-for-ads {
+  width: 100%;
+  height: auto;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: goldenrod;
+  background-color: transparent;
+  border: transparent;
+  text-align: center;
+  @include App.dongle-font(1.8rem);
+
+  &:hover {
+    background-color: transparent;
+    border: transparent;
+    color: goldenrod;
+  }
+}
+
+.owned-voucher-for-ads.line-height-ja {
+  @include App.potta-font(1.1rem);
+  line-height: 1.4;
+}
+
+.line-height-ja {
+  line-height: 1.4;
+}
+
+.line-height-ko-and-en {
+  line-height: 0.9;
+}
+
+.voucher-button-box {
+  @include App.flex-box-center(column);
+  align-items: end;
+}
+
+.voucher-button {
+  min-width: 50px;
+  height: auto;
+  line-height: auto;
+  color: goldenrod;
+  background-color: black;
+  border-color: gold;
+  line-height: 1.4;
+
+  &:hover {
+    background-color: black;
+    border-color: black;
+    color: gold;
+  }
+}
+
+.voucher-button-ja {
+  @include App.potta-font(1.1rem);
+}
+
+.empty {
+  flex-grow: 1;
+}
+
+.purchase-button-box {
+  width: 100%;
+  margin-top: 0px;
+  @include App.flex-box-center(row);
+  justify-content: end;
+}
+
+.purchase-button {
+  margin: 10px;
+  margin-left: 0px;
+  padding-left: 30px;
+  padding-right: 30px;
+  line-height: 1;
+}
+
+.purchase-button-font {
+  font-size: FontExact.get-exact-size(FontExact.$font-exact-korean, 'size-170');
+}
+
+.purchase-button-font-ja {
+  font-size: FontExact.get-exact-size(FontExact.$font-exact-japanese, 'ja-100');
+}
+
+// Card color classes
+.one-card {
+  @include App.one-card-color;
+}
+.two-cards {
+  @include App.two-cards-color;
+}
+.three-cards {
+  @include App.three-cards-color;
+}
+.four-cards {
+  @include App.four-cards-color;
+}
+.five-cards {
+  @include App.five-cards-color;
+}
+.six-cards {
+  @include App.six-cards-color;
+}
+.seven-cards {
+  @include App.seven-cards-color;
+}
+.eight-cards {
+  @include App.eight-cards-color;
+}
+.nine-cards {
+  @include App.nine-cards-color;
+}
+.ten-cards {
+  @include App.ten-cards-color;
+}
+.eleven-cards {
+  @include App.eleven-cards-color;
+}
+.thirteen-cards {
+  @include App.thirteen-cards-color;
+}
+.ads-card {
+  @include App.ads-cards-color;
+}
+
+.japanese-font-title {
+  line-height: 3;
+}
+
+.japanese-font-content {
+  line-height: 2.5;
+}
+
+//! Responsive Media Queries (통합: max-device-width & max-width)
+@media (max-width: 1366px), (max-device-width: 1366px) {
+  @include voucher-font-styles;
+}
+
+@media (max-width: 1024px), (max-device-width: 1024px) {
+  .modal {
+    width: 80%;
+    height: auto;
+    min-height: 200px;
+    max-height: 400px;
+  }
+  @include modal-padding;
+
+  .purchase-modal {
+    width: 100%;
+    height: 70%;
+  }
+  @include voucher-font-styles;
+}
+
+@media (max-width: 768px), (max-device-width: 768px) {
+  .modal {
+    width: 90%;
+    height: auto;
+    max-height: 400px;
+    min-height: 200px;
+  }
+  @include modal-padding;
+
+  .purchase-modal {
+    width: 90%;
+    height: 80%;
+  }
+  @include purchase-button-layout;
+  @include voucher-font-styles;
+}
+
+@media (max-width: 480px), (max-device-width: 480px) {
+  .modal {
+    width: 100%;
+    height: auto;
+    min-height: 20%;
+  }
+  @include modal-padding;
+
+  .purchase-modal {
+    width: 100%;
+    height: 80%;
+    min-height: 400px;
+  }
+  @include purchase-button-layout;
+  @include voucher-font-styles;
+}
+
+@media (max-width: 414px), (max-device-width: 414px) {
+  .modal {
+    width: 100%;
+    height: auto;
+    min-height: 20%;
+  }
+  @include modal-padding;
+  @include purchase-button-layout;
+  @include voucher-font-styles;
+}
+
+@media (max-width: 375px), (max-device-width: 375px) {
+  .modal {
+    width: 100%;
+    height: auto;
+    min-height: 20%;
+  }
+  @include modal-padding;
+  @include purchase-button-layout;
+  @include voucher-font-styles;
+}
+
+@media (max-width: 280px), (max-device-width: 280px) {
+  .modal {
+    width: 100%;
+    height: auto;
+    min-height: 20%;
+  }
+  @include modal-padding;
+
+  .purchase-button-box {
+    width: 100%;
+    @include App.flex-box-center(row);
+    justify-content: end;
+  }
+  .purchase-button {
+    margin: 10px;
+    margin-left: 10px;
+    margin-right: 0px;
+    padding-left: 2px;
+    padding-right: 2px;
+    min-width: auto;
+  }
+  @include voucher-font-styles;
+}
+
+//! Landscape orientation media queries
+@media screen and (orientation: landscape) and (min-device-width: 1025px) and (max-device-width: 1366px) {
+  @include landscape-backdrop-modal;
+
+  div.modal {
+    max-width: 100%;
+    max-height: 90%;
+  }
+  div.purchase-modal {
+    width: 60%;
+    height: 60%;
+  }
+  @include landscape-voucher-box;
+  @include landscape-voucher-fonts;
+}
+
+@media screen and (orientation: landscape) and (min-device-width: 933px) and (max-device-width: 1024px) {
+  @include landscape-backdrop-modal;
+
+  div.modal {
+    width: 600px;
+    height: 200px;
+    max-width: 100%;
+    max-height: 90%;
+  }
+  div.purchase-modal {
+    width: 60%;
+    height: 60%;
+  }
+  @include landscape-voucher-box;
+  @include landscape-voucher-fonts;
+}
+
+@media screen and (orientation: landscape) and (min-device-width: 897px) and (max-device-width: 932px) {
+  @include landscape-backdrop-modal;
+
+  div.modal {
+    width: 600px;
+    height: 200px;
+    max-width: 100%;
+    max-height: 90%;
+  }
+  div.purchase-modal {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    min-height: 300px;
+    overflow: auto;
+  }
+  @include landscape-voucher-box;
+
+  div.voucher {
+    @include App.flex-box-center(row);
+  }
+  @include landscape-voucher-fonts;
+}
+
+@media screen and (orientation: landscape) and (min-device-width: 668px) and (max-device-width: 896px) {
+  @include landscape-backdrop-modal;
+
+  div.modal {
+    width: 600px;
+    height: 200px;
+    max-width: 100%;
+    max-height: 90%;
+  }
+  div.purchase-modal {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    min-height: 300px;
+    overflow: auto;
+  }
+  @include landscape-voucher-box;
+
+  div.voucher {
+    @include App.flex-box-center(row);
+  }
+  div.voucher-total-price {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+  }
+  @include landscape-voucher-fonts;
+}
+
+@media screen and (orientation: landscape) and (min-device-width: 654px) and (max-device-width: 667px) {
+  @include landscape-backdrop-modal;
+
+  div.modal {
+    width: 550px;
+    height: 200px;
+    max-width: 100%;
+    max-height: 90%;
+  }
+  div.purchase-modal {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    min-height: 290px;
+    overflow: auto;
+  }
+  @include landscape-voucher-box;
+
+  div.voucher {
+    @include App.flex-box-center(row);
+  }
+  div.voucher-total-price {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+  }
+  @include landscape-voucher-fonts;
+}
+
+@media screen and (orientation: landscape) and (max-device-width: 653px) {
+  @include landscape-backdrop-modal;
+
+  div.modal {
+    width: 500px;
+    height: 180px;
+    max-width: 100%;
+    max-height: 90%;
+  }
+  div.purchase-modal {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    min-height: 250px;
+    overflow: auto;
+  }
+  @include landscape-voucher-box;
+
+  div.voucher {
+    @include App.flex-box-center(row);
+  }
+  div.voucher-total-price {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+  }
+  @include landscape-voucher-fonts;
+}
+
+// Backup
+// @use '../../../styles/scss/App.module.scss' as App;
+// @use '../../../styles/scss/Font-Exact.module.scss' as FontExact;
+// @use '../../../styles/scss/TarotCardSpreadForm.module.scss';
+
+// @include App.scrollBar-custom-className(voucher-box, 10px, 10px, purple, black);
+// @include App.scrollBar-custom-className(
+//   voucher-box-japanese,
+//   10px,
+//   10px,
+//   purple,
+//   black
+// );
+// .event-package-expired {
+//   display: flex;
+//   align-items: center;
+//   color: #ffd700; // 선물 상자 테마에 맞는 색상
+// }
+// .backdrop {
+//   position: fixed;
+//   top: 0px;
+//   left: 0;
+//   width: 100vw;
+//   height: 100%;
+//   z-index: 20;
+//   background: rgba(0, 0, 0, 0.75);
+//   overflow: hidden;
+// }
+
+// .modal {
+//   position: fixed;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   width: 600px;
+//   height: auto;
+//   min-height: 150px;
+//   z-index: 100;
+//   overflow: hidden;
+//   @include App.flex-box-center(column);
+//   justify-content: space-between;
+//   border: 1px solid black;
+// }
+// .title {
+//   @include App.no-select;
+//   @include App.no-drag;
+//   width: 100%;
+//   @include App.flex-box-center(row);
+//   justify-content: start;
+//   p {
+//     @include App.dongle-font(1.8rem);
+//     margin: 10px;
+//     margin-left: 20px;
+//   }
+// }
+// .modal-content {
+//   @include App.no-select;
+//   @include App.no-drag;
+//   width: 100%;
+//   height: 100%;
+//   margin-left: 40px;
+//   margin-bottom: 40px;
+//   @include App.dongle-font(1.7rem);
+// }
+// .title-japanese {
+//   @include App.no-select;
+//   @include App.no-drag;
+//   width: 100%;
+//   @include App.flex-box-center(row);
+//   justify-content: start;
+//   margin-bottom: 10px;
+//   p {
+//     @include App.potta-font(1.4rem);
+//     margin: 10px;
+//     margin-left: 20px;
+//   }
+// }
+// .modal-content-japanese {
+//   @include App.no-select;
+//   @include App.no-drag;
+//   width: 100%;
+//   height: 100%;
+//   margin-left: 40px;
+//   margin-bottom: 40px;
+//   @include App.potta-font(1.2rem);
+//   line-height: 2;
+// }
+// .purchase-modal {
+//   position: fixed;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   width: 80%;
+//   height: 70%;
+//   min-height: 350px;
+//   z-index: 100;
+//   overflow: hidden;
+//   @include App.flex-box-center(column);
+//   justify-content: space-between;
+//   background-color: black;
+//   border: 3px solid white;
+// }
+
+// .charge-content {
+//   width: 100%;
+//   height: 90%;
+//   @include App.flex-box-center(column);
+// }
+
+// .voucher-box {
+//   width: 100%;
+//   height: 80%;
+//   overflow: auto;
+//   @include App.flex-box-center(column);
+//   justify-content: start;
+//   color: white;
+// }
+
+// .voucher {
+//   width: 100%;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   padding: 15px;
+//   border-bottom: 1px solid #333;
+//   margin-bottom: 10px;
+// }
+
+// .voucher-info-box {
+//   width: 100%;
+//   flex: 1;
+//   text-align: left;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: start;
+// }
+
+// .voucher-title {
+//   margin-bottom: 5px;
+//   display: flex;
+//   justify-content: start;
+//   line-height: 1;
+//   @include App.dongle-font(2.7rem);
+// }
+// .voucher-title.japanese-font-title {
+//   @include App.potta-font(1.5rem);
+//   line-height: 1.2;
+// }
+// h2.voucher-title.ads-card {
+//   @include App.dongle-font(3rem);
+//   line-height: 1;
+// }
+// h2.voucher-title.ads-card.japanese-font-title {
+//   @include App.potta-font(1.5rem);
+// }
+
+// .voucher-description {
+//   white-space: pre-line; /* 줄바꿈을 \n 기준으로 유지 */
+//   color: #888;
+//   margin-bottom: 5px;
+//   padding-right: 10px;
+// }
+
+// .voucher-price {
+//   width: 100%;
+//   display: flex;
+//   justify-content: center;
+//   font-size: FontExact.get-exact-size(FontExact.$font-exact-korean, 'size-120');
+//   color: #ffd700;
+// }
+// .owned-voucher-for-ads {
+//   width: 100%;
+//   height: auto;
+//   padding-top: 0;
+//   padding-bottom: 0;
+//   margin-top: 0;
+//   margin-bottom: 0;
+//   color: goldenrod;
+//   background-color: transparent;
+//   border: transparent;
+//   text-align: center;
+
+//   @include App.dongle-font(1.8rem);
+//   &:hover {
+//     background-color: transparent;
+//     border: transparent;
+//     color: goldenrod;
+//   }
+// }
+// .owned-voucher-for-ads.line-height-ja {
+//   @include App.potta-font(1.1rem);
+//   line-height: 1.4;
+// }
+// .line-height-ja {
+//   line-height: 1.4;
+// }
+// .line-height-ko-and-en {
+//   line-height: 0.9;
+// }
+
+// .voucher-button-box {
+//   @include App.flex-box-center(column);
+//   align-items: end;
+// }
+// .voucher-button {
+//   min-width: 50px;
+//   height: auto;
+//   line-height: auto;
+//   color: goldenrod;
+//   background-color: black;
+//   border-color: gold;
+//   line-height: 1.4;
+//   &:hover {
+//     background-color: black;
+//     border-color: black;
+//     color: gold;
+//   }
+// }
+// .voucher-button-ja {
+//   @include App.potta-font(1.1rem);
+// }
+
+// .empty {
+//   flex-grow: 1;
+// }
+
+// .purchase-button-box {
+//   width: 100%;
+//   margin-top: 0px;
+//   @include App.flex-box-center(row);
+//   justify-content: end;
+// }
+
+// .purchase-button {
+//   margin: 10px;
+//   margin-left: 0px;
+//   padding-left: 30px;
+//   padding-right: 30px;
+//   line-height: 1;
+// }
+
+// .purchase-button-font {
+//   font-size: FontExact.get-exact-size(FontExact.$font-exact-korean, 'size-170');
+// }
+// .purchase-button-font-ja {
+//   font-size: FontExact.get-exact-size(FontExact.$font-exact-japanese, 'ja-100');
+// }
+
+// .one-card {
+//   @include App.one-card-color;
+// }
+// .two-cards {
+//   @include App.two-cards-color;
+// }
+// .three-cards {
+//   @include App.three-cards-color;
+// }
+// .four-cards {
+//   @include App.four-cards-color;
+// }
+// .five-cards {
+//   @include App.five-cards-color;
+// }
+// .six-cards {
+//   @include App.six-cards-color;
+// }
+// .seven-cards {
+//   @include App.seven-cards-color;
+// }
+// .eight-cards {
+//   @include App.eight-cards-color;
+// }
+// .nine-cards {
+//   @include App.nine-cards-color;
+// }
+// .ten-cards {
+//   @include App.ten-cards-color;
+// }
+// .eleven-cards {
+//   @include App.eleven-cards-color;
+// }
+// .thirteen-cards {
+//   @include App.thirteen-cards-color;
+// }
+// .ads-card {
+//   @include App.ads-cards-color;
+// }
+
+// .japanese-font-title {
+//   line-height: 3;
+// }
+// .japanese-font-content {
+//   line-height: 2.5;
+// }
+
+// //~ 디바이스
+// @media (max-device-width: 1366px) {
+//   // Styles for devices up to 1366px wide
+//   .voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   .voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   .japanese-font-title {
+//     line-height: 1.8 !important;
+//   }
+//   .japanese-font-content {
+//     line-height: 1.5 !important;
+//   }
+// }
+// //~ 태블릿, 아이패드, 아이패드 프로
+// @media (max-device-width: 1024px) {
+//   .modal {
+//     width: 80%;
+//     height: auto;
+//     min-height: 200px;
+//     max-height: 400px;
+//   }
+//   .modal-content {
+//     padding-right: 40px;
+//   }
+//   .modal-content-japanese {
+//     padding-right: 40px;
+//   }
+//   .purchase-modal {
+//     width: 100%;
+//     height: 50%;
+//   }
+
+//   .voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   .voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   .japanese-font-title {
+//     line-height: 1.8 !important;
+//   }
+//   .japanese-font-content {
+//     line-height: 1.5 !important;
+//   }
+// }
+// //~ 481px ~ 768px 및 태블릿
+// @media (max-device-width: 768px) {
+//   .modal {
+//     width: 90%;
+//     height: auto;
+//     max-height: 400px;
+//     min-height: 200px;
+//   }
+//   .modal-content {
+//     padding-right: 40px;
+//   }
+//   .modal-content-japanese {
+//     padding-right: 40px;
+//   }
+//   .purchase-modal {
+//     width: 90%;
+//     height: 80%;
+//   }
+//   // .purchase-button-box {
+//   //   justify-content: center;
+//   // }
+//   // .purchase-button {
+//   //   margin: 5px;
+//   // }
+//   .purchase-button-box {
+//     width: 100%;
+//     @include App.flex-box-center(row);
+//     justify-content: end;
+//   }
+//   .purchase-button {
+//     margin: 10px;
+//     margin-left: 10px;
+//     margin-right: 0px;
+//     min-width: auto;
+//   }
+//   // .purchase-button:first-child {
+//   //   margin-left: 10px;
+//   //   margin-right: 10px;
+//   // }
+//   .purchase-button:last-child {
+//     margin-left: 10px;
+//     margin-right: 10px;
+//   }
+
+//   .voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   .voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   .japanese-font-title {
+//     line-height: 1.8 !important;
+//   }
+//   .japanese-font-content {
+//     line-height: 1.5 !important;
+//   }
+// }
+// //~ IPhone 14 Pro Max(430px)
+// @media (max-device-width: 480px) {
+//   .modal {
+//     width: 100%;
+//     height: auto;
+//     min-height: 20%;
+//   }
+//   .modal-content {
+//     padding-right: 40px;
+//   }
+//   .modal-content-japanese {
+//     padding-right: 40px;
+//   }
+//   .purchase-modal {
+//     width: 100%;
+//     height: 80%;
+//     min-height: 400px;
+//   }
+//   .purchase-button-box {
+//     width: 100%;
+//     @include App.flex-box-center(row);
+//     justify-content: end;
+//   }
+//   .purchase-button {
+//     margin: 10px;
+//     margin-left: 10px;
+//     margin-right: 0px;
+//     min-width: auto;
+//   }
+//   // .purchase-button:first-child {
+//   //   margin-left: 10px;
+//   //   margin-right: 10px;
+//   // }
+//   .purchase-button:last-child {
+//     margin-left: 10px;
+//     margin-right: 10px;
+//   }
+
+//   .voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   .voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   .japanese-font-title {
+//     line-height: 1.8 !important;
+//   }
+//   .japanese-font-content {
+//     line-height: 1.5 !important;
+//   }
+// }
+// //~ 아이폰XR
+// @media (max-device-width: 414px) {
+//   .modal {
+//     width: 100%;
+//     height: auto;
+//     min-height: 20%;
+//   }
+//   .modal-content {
+//     padding-right: 40px;
+//   }
+//   .modal-content-japanese {
+//     padding-right: 40px;
+//   }
+//   // .purchase-button {
+//   //   padding-left: 2px;
+//   //   padding-right: 2px;
+//   // }
+//   .purchase-button-box {
+//     width: 100%;
+//     @include App.flex-box-center(row);
+//     justify-content: end;
+//   }
+//   .purchase-button {
+//     margin: 10px;
+//     margin-left: 10px;
+//     margin-right: 0px;
+//     min-width: auto;
+//   }
+//   // .purchase-button:first-child {
+//   //   margin-left: 10px;
+//   //   margin-right: 10px;
+//   // }
+//   .purchase-button:last-child {
+//     margin-left: 10px;
+//     margin-right: 10px;
+//   }
+
+//   .voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   .voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   .japanese-font-title {
+//     line-height: 1.8 !important;
+//   }
+//   .japanese-font-content {
+//     line-height: 1.5 !important;
+//   }
+// }
+// //~ 아이폰 SE
+// @media (max-device-width: 375px) {
+//   .modal {
+//     width: 100%;
+//     height: auto;
+//     min-height: 20%;
+//   }
+//   .modal-content {
+//     padding-right: 40px;
+//   }
+//   .modal-content-japanese {
+//     padding-right: 40px;
+//   }
+//   // .purchase-button {
+//   //   padding-left: 2px;
+//   //   padding-right: 2px;
+//   // }
+//   .purchase-button-box {
+//     width: 100%;
+//     @include App.flex-box-center(row);
+//     justify-content: end;
+//   }
+//   .purchase-button {
+//     margin: 10px;
+//     margin-left: 10px;
+//     margin-right: 0px;
+//     min-width: auto;
+//   }
+//   // .purchase-button:first-child {
+//   //   margin-left: 10px;
+//   //   margin-right: 10px;
+//   // }
+//   .purchase-button:last-child {
+//     margin-left: 10px;
+//     margin-right: 10px;
+//   }
+
+//   .voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   .voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   .japanese-font-title {
+//     line-height: 1.8 !important;
+//   }
+//   .japanese-font-content {
+//     line-height: 1.5 !important;
+//   }
+// }
+// //~ 갤럭시 폴드
+// @media (max-device-width: 280px) {
+//   .modal {
+//     width: 100%;
+//     height: auto;
+//     min-height: 20%;
+//   }
+//   .modal-content {
+//     padding-right: 40px;
+//   }
+//   .modal-content-japanese {
+//     padding-right: 40px;
+//   }
+
+//   .purchase-button-box {
+//     width: 100%;
+//     @include App.flex-box-center(row);
+//     justify-content: end;
+//   }
+//   .purchase-button {
+//     margin: 10px;
+//     margin-left: 10px;
+//     margin-right: 0px;
+//     padding-left: 2px;
+//     padding-right: 2px;
+//     min-width: auto;
+//   }
+
+//   .voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   .voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   .japanese-font-title {
+//     line-height: 1.8 !important;
+//   }
+//   .japanese-font-content {
+//     line-height: 1.5 !important;
+//   }
+// }
+
+// //! 반응형 웹브라우저
+// //~ 디바이스
+// @media (max-width: 1366px) {
+//   // Styles for devices up to 1366px wide
+//   .voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   .voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   .japanese-font-title {
+//     line-height: 1.8 !important;
+//   }
+//   .japanese-font-content {
+//     line-height: 1.5 !important;
+//   }
+// }
+// //~ 태블릿, 아이패드, 아이패드 프로
+// @media (max-width: 1024px) {
+//   .modal {
+//     width: 80%;
+//     height: auto;
+//     min-height: 200px;
+//     max-height: 400px;
+//   }
+//   .modal-content {
+//     padding-right: 40px;
+//   }
+//   .modal-content-japanese {
+//     padding-right: 40px;
+//   }
+//   .purchase-modal {
+//     width: 100%;
+//     height: 50%;
+//   }
+//   .voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   .voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   .japanese-font-title {
+//     line-height: 1.8 !important;
+//   }
+//   .japanese-font-content {
+//     line-height: 1.5 !important;
+//   }
+// }
+// //~ 481px ~ 768px 및 태블릿
+// @media (max-width: 768px) {
+//   .modal {
+//     width: 90%;
+//     height: auto;
+//     max-height: 400px;
+//     min-height: 200px;
+//   }
+//   .modal-content {
+//     padding-right: 40px;
+//   }
+//   .modal-content-japanese {
+//     padding-right: 40px;
+//   }
+//   .purchase-modal {
+//     width: 90%;
+//     height: 80%;
+//   }
+//   // .purchase-button-box {
+//   //   justify-content: center;
+//   // }
+//   // .purchase-button {
+//   //   margin: 5px;
+//   // }
+//   .purchase-button-box {
+//     width: 100%;
+//     @include App.flex-box-center(row);
+//     justify-content: end;
+//   }
+//   .purchase-button {
+//     margin: 10px;
+//     margin-left: 10px;
+//     margin-right: 0px;
+//     min-width: auto;
+//   }
+//   // .purchase-button:first-child {
+//   //   margin-left: 10px;
+//   //   margin-right: 10px;
+//   // }
+//   .purchase-button:last-child {
+//     margin-left: 10px;
+//     margin-right: 10px;
+//   }
+//   .voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   .voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   .japanese-font-title {
+//     line-height: 1.8 !important;
+//   }
+//   .japanese-font-content {
+//     line-height: 1.5 !important;
+//   }
+// }
+// //~ IPhone 14 Pro Max(430px)
+// @media (max-width: 480px) {
+//   .modal {
+//     width: 100%;
+//     height: auto;
+//     min-height: 20%;
+//   }
+//   .modal-content {
+//     padding-right: 40px;
+//   }
+//   .modal-content-japanese {
+//     padding-right: 40px;
+//   }
+//   .purchase-modal {
+//     width: 100%;
+//     height: 80%;
+//     min-height: 400px;
+//   }
+//   .purchase-button-box {
+//     width: 100%;
+//     @include App.flex-box-center(row);
+//     justify-content: end;
+//   }
+//   .purchase-button {
+//     margin: 10px;
+//     margin-left: 10px;
+//     margin-right: 0px;
+//     min-width: auto;
+//   }
+//   // .purchase-button:first-child {
+//   //   margin-left: 10px;
+//   //   margin-right: 10px;
+//   // }
+//   .purchase-button:last-child {
+//     margin-left: 10px;
+//     margin-right: 10px;
+//   }
+//   .voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   .voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   .japanese-font-title {
+//     line-height: 1.8 !important;
+//   }
+//   .japanese-font-content {
+//     line-height: 1.5 !important;
+//   }
+// }
+// //~ 아이폰XR
+// @media (max-width: 414px) {
+//   .modal {
+//     width: 100%;
+//     height: auto;
+//     min-height: 20%;
+//   }
+//   .modal-content {
+//     padding-right: 40px;
+//   }
+//   .modal-content-japanese {
+//     padding-right: 40px;
+//   }
+//   // .purchase-button {
+//   //   padding-left: 2px;
+//   //   padding-right: 2px;
+//   // }
+//   .purchase-button-box {
+//     width: 100%;
+//     @include App.flex-box-center(row);
+//     justify-content: end;
+//   }
+//   .purchase-button {
+//     margin: 10px;
+//     margin-left: 10px;
+//     margin-right: 0px;
+//     min-width: auto;
+//   }
+//   // .purchase-button:first-child {
+//   //   margin-left: 10px;
+//   //   margin-right: 10px;
+//   // }
+//   .purchase-button:last-child {
+//     margin-left: 10px;
+//     margin-right: 10px;
+//   }
+//   .voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   .voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   .japanese-font-title {
+//     line-height: 1.8 !important;
+//   }
+//   .japanese-font-content {
+//     line-height: 1.5 !important;
+//   }
+// }
+// //~ 아이폰 SE
+// @media (max-width: 375px) {
+//   .modal {
+//     width: 100%;
+//     height: auto;
+//     min-height: 20%;
+//   }
+//   .modal-content {
+//     padding-right: 40px;
+//   }
+//   .modal-content-japanese {
+//     padding-right: 40px;
+//   }
+//   // .purchase-button {
+//   //   padding-left: 2px;
+//   //   padding-right: 2px;
+//   // }
+//   .purchase-button-box {
+//     width: 100%;
+//     @include App.flex-box-center(row);
+//     justify-content: end;
+//   }
+//   .purchase-button {
+//     margin: 10px;
+//     margin-left: 10px;
+//     margin-right: 0px;
+//     min-width: auto;
+//   }
+//   // .purchase-button:first-child {
+//   //   margin-left: 10px;
+//   //   margin-right: 10px;
+//   // }
+//   .purchase-button:last-child {
+//     margin-left: 10px;
+//     margin-right: 10px;
+//   }
+//   .voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   .voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   .japanese-font-title {
+//     line-height: 1.8 !important;
+//   }
+//   .japanese-font-content {
+//     line-height: 1.5 !important;
+//   }
+// }
+// //~ 갤럭시 폴드
+// @media (max-width: 280px) {
+//   .modal {
+//     width: 100%;
+//     height: auto;
+//     min-height: 20%;
+//   }
+//   .modal-content {
+//     padding-right: 40px;
+//   }
+//   .modal-content-japanese {
+//     padding-right: 40px;
+//   }
+
+//   .purchase-button-box {
+//     width: 100%;
+//     @include App.flex-box-center(row);
+//     justify-content: end;
+//   }
+//   .purchase-button {
+//     margin: 10px;
+//     margin-left: 10px;
+//     margin-right: 0px;
+//     padding-left: 2px;
+//     padding-right: 2px;
+//     min-width: auto;
+//   }
+//   .voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   .voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   .japanese-font-title {
+//     line-height: 1.8 !important;
+//   }
+//   .japanese-font-content {
+//     line-height: 1.5 !important;
+//   }
+// }
+
+// // 가로 모드 미디어 쿼리들
+
+// //* 아이패드 프로 가로
+// @media screen and (orientation: landscape) and (min-device-width: 1025px) and (max-device-width: 1366px) {
+//   div.backdrop {
+//     position: fixed;
+//     top: 0px;
+//     left: 0;
+//     width: 100vw;
+//     height: 100%;
+//     z-index: 10;
+//     background: rgba(0, 0, 0, 0.75);
+//   }
+//   div.modal {
+//     max-width: 100%;
+//     max-height: 90%;
+//   }
+//   div.purchase-modal {
+//     width: 60%;
+//     height: 60%;
+//   }
+//   div.voucher-box,
+//   div.voucher-box-japanese {
+//     height: 80%;
+//     position: relative;
+//     @include App.flex-box-center(column);
+//     justify-content: start;
+//   }
+
+//   div.voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   div.voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   div h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   div h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   div.japanese-font-title {
+//     line-height: 3 !important;
+//   }
+// }
+
+// //* 태블릿 아이패드, 아이패드 프로 가로
+// @media screen and (orientation: landscape) and (min-device-width: 933px) and (max-device-width: 1024px) {
+//   div.backdrop {
+//     position: fixed;
+//     top: 0px;
+//     left: 0;
+//     width: 100vw;
+//     height: 100%;
+//     z-index: 10;
+//     background: rgba(0, 0, 0, 0.75);
+//   }
+//   div.modal {
+//     width: 600px;
+//     height: 200px;
+//     max-width: 100%;
+//     max-height: 90%;
+//   }
+//   div.purchase-modal {
+//     width: 60%;
+//     height: 60%;
+//   }
+//   div.voucher-box,
+//   div.voucher-box-japanese {
+//     height: 80%;
+//     position: relative;
+//     @include App.flex-box-center(column);
+//     justify-content: start;
+//   }
+
+//   div.voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   div.voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   div h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   div h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   div.japanese-font-title {
+//     line-height: 3 !important;
+//   }
+// }
+
+// //* IPhon 14 Pro Max 가로모드
+// @media screen and (orientation: landscape) and (min-device-width: 897px) and (max-device-width: 932px) {
+//   div.backdrop {
+//     position: fixed;
+//     top: 0px;
+//     left: 0;
+//     width: 100vw;
+//     height: 100%;
+//     z-index: 10;
+//     background: rgba(0, 0, 0, 0.75);
+//   }
+//   div.modal {
+//     width: 600px;
+//     height: 200px;
+//     max-width: 100%;
+//     max-height: 90%;
+//   }
+//   div.purchase-modal {
+//     width: 100%;
+//     height: 100%;
+//     max-width: 100%;
+//     max-height: 100%;
+//     min-height: 300px;
+//     overflow: auto;
+//   }
+//   div.voucher-box,
+//   div.voucher-box-japanese {
+//     height: 80%;
+//     position: relative;
+//     @include App.flex-box-center(column);
+//     justify-content: start;
+//   }
+//   div.voucher {
+//     // @include App.dongle-font(1.8rem);
+//     @include App.flex-box-center(row);
+//   }
+
+//   div.voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   div.voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   div h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   div h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   div.japanese-font-title {
+//     line-height: 3 !important;
+//   }
+// }
+
+// //* 아이폰XR 가로모드
+// @media screen and (orientation: landscape) and (min-device-width: 668px) and (max-device-width: 896px) {
+//   div.backdrop {
+//     position: fixed;
+//     top: 0px;
+//     left: 0;
+//     width: 100vw;
+//     height: 100%;
+//     z-index: 10;
+//     background: rgba(0, 0, 0, 0.75);
+//   }
+//   div.modal {
+//     width: 600px;
+//     height: 200px;
+//     max-width: 100%;
+//     max-height: 90%;
+//   }
+//   div.purchase-modal {
+//     width: 100%;
+//     height: 100%;
+//     max-width: 100%;
+//     max-height: 100%;
+//     min-height: 300px;
+//     overflow: auto;
+//   }
+//   div.voucher-box,
+//   div.voucher-box-japanese {
+//     height: 80%;
+//     position: relative;
+//     @include App.flex-box-center(column);
+//     justify-content: start;
+//   }
+//   div.voucher {
+//     // @include App.dongle-font(1.8rem);
+//     @include App.flex-box-center(row);
+//   }
+//   div.voucher-total-price {
+//     // @include App.dongle-font(1.8rem);
+//     position: absolute;
+//     bottom: 0;
+//     right: 10px;
+//   }
+
+//   div.voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   div.voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   div h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   div h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   div.japanese-font-title {
+//     line-height: 3 !important;
+//   }
+// }
+
+// //* 아이폰SE 가로모드
+// @media screen and (orientation: landscape) and (min-device-width: 654px) and (max-device-width: 667px) {
+//   div.backdrop {
+//     position: fixed;
+//     top: 0px;
+//     left: 0;
+//     width: 100vw;
+//     height: 100%;
+//     z-index: 10;
+//     background: rgba(0, 0, 0, 0.75);
+//   }
+//   div.modal {
+//     width: 550px;
+//     height: 200px;
+//     max-width: 100%;
+//     max-height: 90%;
+//   }
+//   div.purchase-modal {
+//     width: 100%;
+//     height: 100%;
+//     max-width: 100%;
+//     max-height: 100%;
+//     min-height: 290px;
+//     overflow: auto;
+//   }
+//   div.voucher-box,
+//   div.voucher-box-japanese {
+//     height: 80%;
+//     position: relative;
+//     @include App.flex-box-center(column);
+//     justify-content: start;
+//   }
+//   div.voucher {
+//     // @include App.dongle-font(1.8rem);
+//     @include App.flex-box-center(row);
+//   }
+
+//   div.voucher-total-price {
+//     // @include App.dongle-font(1.8rem);
+//     position: absolute;
+//     bottom: 0;
+//     right: 10px;
+//   }
+
+//   div.voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   div.voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   div h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   div h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   div.japanese-font-title {
+//     line-height: 3 !important;
+//   }
+// }
+
+// //* 갤럭시 폴드 가로모드
+// @media screen and (orientation: landscape) and (max-device-width: 653px) {
+//   div.backdrop {
+//     position: fixed;
+//     top: 0px;
+//     left: 0;
+//     width: 100vw;
+//     height: 100%;
+//     z-index: 10;
+//     background: rgba(0, 0, 0, 0.75);
+//   }
+//   div.modal {
+//     width: 500px;
+//     height: 180px;
+//     max-width: 100%;
+//     max-height: 90%;
+//   }
+//   div.purchase-modal {
+//     width: 100%;
+//     height: 100%;
+//     max-width: 100%;
+//     max-height: 100%;
+//     min-height: 250px;
+//     overflow: auto;
+//   }
+//   div.voucher-box,
+//   div.voucher-box-japanese {
+//     height: 80%;
+//     position: relative;
+//     @include App.flex-box-center(column);
+//     justify-content: start;
+//   }
+//   div.voucher {
+//     // @include App.dongle-font(1.8rem);
+//     @include App.flex-box-center(row);
+//   }
+
+//   div.voucher-total-price {
+//     // @include App.dongle-font(1.8rem);
+//     position: absolute;
+//     bottom: 0;
+//     right: 10px;
+//   }
+
+//   div.voucher-title {
+//     @include App.dongle-font(2.7rem);
+//   }
+//   div.voucher-title.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+
+//     line-height: 1.2;
+//   }
+//   div h2.voucher-title.ads-card {
+//     @include App.dongle-font(3rem);
+//   }
+//   div h2.voucher-title.ads-card.japanese-font-title {
+//     @include App.potta-font(1.5rem);
+//   }
+//   div.japanese-font-title {
+//     line-height: 3 !important;
+//   }
+// }

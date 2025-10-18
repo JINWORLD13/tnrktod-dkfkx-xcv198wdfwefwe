@@ -1,0 +1,117 @@
+﻿@use '../../styles/scss/App.module.scss' as App;
+@use '../../styles/scss/Font-Exact.module.scss' as FontExact;
+
+.blink-modal {
+  @include App.no-select;
+  width: auto;
+  height: auto;
+  padding: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: rgb(0, 0, 0, 0.5);
+  position: fixed;
+  left: 50%;
+  bottom: 18%;
+  transform: translate(-50%, -50%);
+  z-index: 100000000;
+  color: white;
+  pointer-events: none;
+  cursor: not-allowed;
+  text-align: center;
+  @include App.dongle-font(2rem);
+  font-size: 2rem !important; /* Font-Exact: size-200, !important로 mixin 대신 직접 사용 */
+  line-height: 32px;
+  div {
+    white-space: nowrap; // text가 줄바꿈 되지 않게 함.
+  }
+}
+
+.blink-modal-japanese {
+  @include App.no-select;
+  width: auto;
+  height: auto;
+  padding: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: rgb(0, 0, 0, 0.5);
+  position: fixed;
+  left: 50%;
+  bottom: 18%;
+  transform: translate(-50%, -50%);
+  z-index: 100000000;
+  color: white;
+  pointer-events: none;
+  cursor: not-allowed;
+  text-align: center;
+  @include App.potta-font(1.25rem);
+  font-size: 1.25rem !important; /* Font-Exact: size-125, !important로 mixin 대신 직접 사용 */
+  div {
+    white-space: nowrap; // text가 줄바꿈 되지 않게 함.
+  }
+}
+
+.speedTarotNotification {
+  position: fixed;
+  left: 50%;
+  top: 15%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  @include App.dongle-font(2rem);
+  font-size: 2rem !important; /* Font-Exact: size-200, !important로 mixin 대신 직접 사용 */
+  line-height: 20px;
+}
+.speedTarotNotification-japanese {
+  position: fixed;
+  left: 50%;
+  top: 15%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  @include App.potta-font(1.25rem);
+  font-size: 1.25rem !important; /* Font-Exact: size-125, !important로 mixin 대신 직접 사용 */
+  line-height: 20px;
+}
+
+// 322px 이하 화면에서 폰트 크기 조정
+@media (max-width: 322px) {
+  .blink-modal {
+    font-size: 1.5rem !important; /* 2rem → 1.5rem (24px) */
+    line-height: 24px;
+    padding: 15px;
+  }
+
+  .blink-modal-japanese {
+    font-size: 1rem !important; /* 1.25rem → 1rem (16px) */
+    line-height: 18px;
+    padding: 15px;
+
+    // USD potta 폰트 크기 조정
+    span[style*='Potta One'] {
+      font-size: 0.875rem !important; /* 1.25rem → 0.875rem */
+    }
+
+    // KRW/ウォン 폰트 크기 조정
+    span[style*='2.2rem'] {
+      font-size: 1.5rem !important; /* 2.2rem → 1.5rem */
+    }
+  }
+
+  .speedTarotNotification {
+    font-size: 1.5rem !important; /* 2rem → 1.5rem (24px) */
+    line-height: 18px;
+  }
+
+  .speedTarotNotification-japanese {
+    font-size: 1rem !important; /* 1.25rem → 1rem (16px) */
+    line-height: 18px;
+
+    // USD potta 폰트 크기 조정
+    span[style*='Potta One'] {
+      font-size: 0.875rem !important; /* 1.25rem → 0.875rem */
+    }
+
+    // KRW/ウォン 폰트 크기 조정
+    span[style*='2.2rem'] {
+      font-size: 1.5rem !important; /* 2.2rem → 1.5rem */
+    }
+  }
+}

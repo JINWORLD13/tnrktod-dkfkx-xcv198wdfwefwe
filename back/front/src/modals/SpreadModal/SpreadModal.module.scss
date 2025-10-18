@@ -1,0 +1,1819 @@
+﻿@use '../../styles/scss/App.module.scss';
+@use '../../styles/scss/Font-Exact.module.scss' as FontExact;
+@use 'sass:list';
+@use 'sass:math';
+
+// ==============================================
+// 변수 정의
+// ==============================================
+$btn-width: 70px;
+$btn-height: 35px;
+$btn-width-horizon: 110px;
+$btn-height-horizon: 25px;
+$btn-height-horizon2: 30px;
+$border-width: 3px;
+$animation-duration: 4s;
+$rainbow-colors: (red, orange, yellow, green, blue, indigo, violet);
+
+// ==============================================
+// 믹스인 정의
+// ==============================================
+@mixin rainbow-animation {
+  $total-colors: list.length($rainbow-colors);
+
+  @keyframes rainbow {
+    @each $color in $rainbow-colors {
+      $index: list.index($rainbow-colors, $color);
+      #{math.percentage(math.div($index - 1, $total-colors))} {
+        border-color: $color;
+      }
+    }
+  }
+}
+
+@mixin glow-effect {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+  }
+}
+
+// 반응형 텍스트 크기 믹스인
+@mixin responsive-text($korean-size, $japanese-size) {
+  p.title {
+    @include App.dongle-font($korean-size);
+    line-height: 1;
+  }
+  p.title-japanese {
+    @include App.potta-font($japanese-size);
+    line-height: 1;
+  }
+}
+
+@mixin responsive-description(
+  $korean-size,
+  $japanese-size,
+  $japanese-line-height: 1.5
+) {
+  p.description {
+    @include App.dongle-font($korean-size);
+    line-height: 1;
+  }
+  p.description-japanese {
+    @include App.potta-font($japanese-size);
+    line-height: $japanese-line-height;
+  }
+}
+
+// 카드 스타일 믹스인
+@mixin card-styles($font-size) {
+  font-size: $font-size;
+
+  span.center-underline {
+    position: relative;
+    display: inline-block;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 50%;
+      height: 3px;
+      background-color: currentColor;
+    }
+  }
+}
+
+// ==============================================
+// 공통 버튼 스타일
+// ==============================================
+%button-base {
+  min-width: $btn-width;
+  height: $btn-height;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  @include App.flex-box-center(row);
+}
+
+%button {
+  @extend %button-base;
+  color: gold;
+  background-color: purple;
+}
+
+%button-hover {
+  @extend %button-base;
+  color: purple;
+  background-color: gold;
+}
+
+%button-selected {
+  @extend %button-hover;
+}
+
+// ==============================================
+// 메인 레이아웃
+// ==============================================
+.spreadModal {
+  width: 530px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-image: url('/assets/images/universe.jpg');
+  @include App.flex-box-center(column);
+  justify-content: space-evenly;
+  @include App.no-select;
+}
+
+// ==============================================
+// 버튼 영역
+// ==============================================
+.btn-box {
+  width: 90%;
+  min-height: 7%;
+  padding: 5px 10px;
+  @include App.flex-box-center(row);
+  justify-content: space-evenly;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+
+  // 광고 버튼들
+  .ads-btn,
+  .ads-btn-japanese {
+    @extend %button;
+    position: absolute;
+    left: 0;
+    border: $border-width solid;
+    animation: rainbow $animation-duration linear infinite;
+    @include glow-effect;
+
+    &.selected {
+      @extend %button-selected;
+      color: white;
+    }
+
+    &:hover {
+      @extend %button-hover;
+      border: $border-width solid;
+      animation: rainbow $animation-duration linear infinite;
+      @include glow-effect;
+    }
+  }
+
+  .ads-btn {
+    @include App.dongle-font(1.5rem);
+  }
+
+  .ads-btn-japanese {
+    @include App.potta-font(0.9rem);
+  }
+
+  // 보상 버튼들
+  .ads-reward,
+  .ads-reward-japanese {
+    @extend %button-base;
+    background: linear-gradient(135deg, #6b21a8 0%, #7e22ce 100%);
+    border: 2px solid #9333ea;
+    color: #e9d5ff;
+    box-shadow: 0 0 20px rgba(147, 51, 234, 0.5);
+    transition: all 0.3s ease;
+    position: absolute;
+    right: 0;
+    @include App.flex-box-center(row);
+
+    &:hover {
+      background: linear-gradient(135deg, #7e22ce 0%, #9333ea 100%);
+      border-color: #a855f7;
+      color: white;
+      box-shadow: 0 0 30px rgba(147, 51, 234, 0.8);
+      transform: translateY(-2px);
+    }
+  }
+
+  .ads-reward {
+    @include App.dongle-font(1.5rem);
+  }
+
+  .ads-reward-japanese {
+    @include App.potta-font(0.9rem);
+  }
+
+  // 취소 버튼들
+  .cancel-btn,
+  .cancel-btn-japanese {
+    @extend %button-base;
+    background: linear-gradient(135deg, #6b21a8 0%, #7e22ce 100%);
+    border: 2px solid #9333ea;
+    color: #e9d5ff;
+    box-shadow: 0 0 20px rgba(147, 51, 234, 0.5);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: linear-gradient(135deg, #7e22ce 0%, #9333ea 100%);
+      border-color: #a855f7;
+      color: white;
+      box-shadow: 0 0 30px rgba(147, 51, 234, 0.8);
+      transform: translateY(-2px);
+    }
+  }
+
+  .cancel-btn {
+    @include App.dongle-font(1.5rem);
+  }
+
+  .cancel-btn-japanese {
+    @include App.potta-font(0.9rem);
+  }
+}
+
+@include App.scrollBar-custom-className(
+  btn-box,
+  0px,
+  0px,
+  transparent,
+  transparent
+);
+
+// 타로 선택 버튼들
+.which-tarot-btn,
+.which-tarot-btn-japanese {
+  @extend %button;
+  background-color: transparent;
+
+  &.selected {
+    @extend %button-selected;
+  }
+
+  &:hover {
+    @extend %button-hover;
+  }
+}
+
+.which-tarot-btn {
+  @include App.dongle-font(1.5rem);
+}
+
+.which-tarot-btn-japanese {
+  @include App.potta-font(0.9rem);
+}
+
+// ==============================================
+// 리스트 영역
+// ==============================================
+.list {
+  width: 94%;
+  height: 80%;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.list-element {
+  width: 96%;
+  margin: 2%;
+  border: 1px solid #ffd700;
+  animation: twinkle-border 1.5s ease-in-out infinite alternate;
+  @include App.flex-box-center(row);
+  cursor: pointer;
+
+  &:hover {
+    border: 2.2px solid blue;
+    animation: none;
+    box-shadow: none;
+  }
+}
+
+@keyframes twinkle-border {
+  from {
+    box-shadow: 0 0 5px #ffd700;
+  }
+  to {
+    box-shadow: 0 0 8px #ffd700;
+  }
+}
+
+@include App.scrollBar-custom-className(list, 10px, 10px, purple, transparent);
+
+// ==============================================
+// 스프레드 박스
+// ==============================================
+.spread-box {
+  width: 98%;
+  height: 100%;
+  min-height: 130px;
+  margin: 1%;
+  @include App.flex-box-center(row);
+}
+
+.spread-box-purchase {
+  @extend .spread-box;
+}
+
+.spread-image {
+  width: 30%;
+  height: 100%;
+}
+
+.spread-description-box {
+  width: 80%;
+  height: 100%;
+  color: gold;
+  font-weight: 700;
+  @include App.flex-box-center(column);
+  justify-content: start;
+}
+
+.spread-title {
+  width: 100%;
+  @include FontExact.exact-korean-font('size-125') /* was: 1.25rem */;
+  @include App.flex-grow(1);
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+
+  p.title,
+  p.title-japanese {
+    width: 100%;
+    margin: 0 10px;
+    color: #ffd700;
+    line-height: 1;
+  }
+
+  p.title {
+    @include App.dongle-font(2rem);
+  }
+
+  p.title-japanese {
+    @include App.potta-font(1.2rem);
+  }
+}
+
+.spread-description {
+  width: 100%;
+  text-align: start;
+  @include App.flex-grow(2);
+  display: flex;
+  justify-content: start;
+
+  p.description,
+  p.description-japanese {
+    width: 100%;
+    margin: 0 10px;
+  }
+
+  p.description {
+    @include App.dongle-font(1.5rem);
+    line-height: 1;
+  }
+
+  p.description-japanese {
+    @include App.potta-font(1rem);
+    line-height: 1.5;
+  }
+}
+
+.spread-price {
+  width: 100%;
+  margin-bottom: 3px;
+  @include App.flex-box-center(column);
+  justify-content: end;
+  white-space: pre;
+
+  & > div:nth-child(1) {
+    width: 100%;
+    text-align: end;
+
+    & > p:nth-child(1) {
+      vertical-align: middle;
+      margin-right: 0.3rem;
+      margin-bottom: 0.3rem;
+      line-height: 1;
+    }
+  }
+
+  & > div:nth-child(2) {
+    width: 100%;
+    @include App.flex-box-center(row);
+    justify-content: end;
+
+    & > p:nth-child(2) {
+      text-decoration: line-through;
+    }
+
+    & > p:last-child {
+      margin-right: 3px;
+    }
+  }
+}
+
+// ==============================================
+// 카드 스타일들 (원본 기능 유지)
+// ==============================================
+.one-card {
+  @include App.one-card;
+  @include card-styles(inherit);
+}
+.two-cards {
+  @include App.two-cards;
+  @include card-styles(inherit);
+}
+.three-cards {
+  @include App.three-cards;
+  @include card-styles(inherit);
+}
+.four-cards {
+  @include App.four-cards;
+  @include card-styles(inherit);
+}
+.five-cards {
+  @include App.five-cards;
+  @include card-styles(inherit);
+}
+.six-cards {
+  @include App.six-cards;
+  @include card-styles(inherit);
+}
+.seven-cards {
+  @include App.seven-cards;
+  @include card-styles(inherit);
+}
+.eight-cards {
+  @include App.eight-cards;
+  @include card-styles(inherit);
+}
+.nine-cards {
+  @include App.nine-cards;
+  @include card-styles(inherit);
+}
+.ten-cards {
+  @include App.ten-cards;
+  @include card-styles(inherit);
+}
+.eleven-cards {
+  @include App.eleven-cards;
+  @include card-styles(inherit);
+}
+.thirteen-cards {
+  @include App.thirteen-cards;
+  @include card-styles(inherit);
+}
+.ads-cards {
+  @include App.ads-cards;
+  @include card-styles(inherit);
+}
+
+@include rainbow-animation;
+
+// ==============================================
+// 반응형 미디어쿼리
+// ==============================================
+
+// 데스크톱 (1024px+)
+@media (min-width: 1024px) {
+  .spreadModal {
+    width: 60vw;
+  }
+  .which-tarot-btn {
+    background-color: transparent;
+  }
+  .spread-title {
+    @include responsive-text(2rem, 1.2rem);
+  }
+  .spread-description {
+    @include responsive-description(1.65rem, 1.1rem);
+  }
+  .spread-price {
+    font-size: 1rem;
+  }
+  .one-card,
+  .two-cards,
+  .three-cards,
+  .four-cards,
+  .five-cards,
+  .six-cards,
+  .ten-cards {
+    @include card-styles(2rem);
+    @include App.dongle-font(2rem);
+
+    :lang(ja) & {
+      @include App.potta-font(1.3rem);
+    }
+  }
+}
+
+// 태블릿 (768px - 1024px)
+@media (min-width: 768px) and (max-width: 1024px) {
+  .spreadModal {
+    width: 60vw;
+  }
+  .which-tarot-btn {
+    background-color: transparent;
+  }
+  .spread-title {
+    @include responsive-text(1.8rem, 1.2rem);
+  }
+  .spread-description {
+    @include responsive-description(1.5rem, 1rem);
+  }
+  .spread-price {
+    font-size: 1rem;
+  }
+  .one-card,
+  .two-cards,
+  .three-cards,
+  .four-cards,
+  .five-cards,
+  .six-cards,
+  .ten-cards {
+    @include card-styles(2rem);
+    @include App.dongle-font(2rem);
+
+    :lang(ja) & {
+      @include App.potta-font(1.3rem);
+    }
+  }
+}
+
+// 중간 모바일 (480px - 768px)
+@media (min-width: 480px) and (max-width: 768px) {
+  .spreadModal {
+    width: 70vw;
+  }
+  .which-tarot-btn {
+    background-color: transparent;
+  }
+  .spread-title {
+    @include responsive-text(1.8rem, 1.2rem);
+  }
+  .spread-description {
+    @include responsive-description(1.45rem, 1rem);
+  }
+  .spread-price {
+    @include FontExact.exact-korean-font('size-090') /* was: 0.9rem */;
+  }
+  .one-card,
+  .two-cards,
+  .three-cards,
+  .four-cards,
+  .five-cards,
+  .six-cards,
+  .ten-cards {
+    @include card-styles(2rem);
+    @include App.dongle-font(2rem);
+
+    :lang(ja) & {
+      @include App.potta-font(1.3rem);
+    }
+  }
+}
+
+// 큰 모바일 (414px - 480px)
+@media (min-width: 414px) and (max-width: 480px) {
+  .spreadModal {
+    width: 100vw;
+  }
+  .which-tarot-btn {
+    background-color: transparent;
+  }
+  .spread-title {
+    @include responsive-text(1.8rem, 1.2rem);
+  }
+  .spread-description {
+    @include responsive-description(1.45rem, 1rem);
+  }
+  .spread-price {
+    @include FontExact.exact-korean-font('size-080') /* was: 0.8rem */;
+  }
+  .one-card,
+  .two-cards,
+  .three-cards,
+  .four-cards,
+  .five-cards,
+  .six-cards,
+  .ten-cards {
+    @include card-styles(2rem);
+    @include App.dongle-font(2rem);
+
+    :lang(ja) & {
+      @include App.potta-font(1.3rem);
+    }
+  }
+}
+
+// 일반 모바일 (375px - 414px)
+@media (min-width: 375px) and (max-width: 414px) {
+  .spreadModal {
+    width: 100vw;
+  }
+  .which-tarot-btn {
+    background-color: transparent;
+  }
+  .spread-title {
+    @include responsive-text(1.8rem, 1.2rem);
+  }
+  .spread-description {
+    @include responsive-description(1.45rem, 0.9rem);
+  }
+  .spread-price {
+    @include FontExact.exact-korean-font('size-080') /* was: 0.8rem */;
+  }
+  .one-card,
+  .two-cards,
+  .three-cards,
+  .four-cards,
+  .five-cards,
+  .six-cards,
+  .ten-cards {
+    @include card-styles(2rem);
+    @include App.dongle-font(2rem);
+
+    :lang(ja) & {
+      @include App.potta-font(1.3rem);
+    }
+  }
+}
+
+// 작은 모바일 (280px - 375px)
+@media (min-width: 280px) and (max-width: 375px) {
+  .spreadModal {
+    width: 100vw;
+  }
+  .btn-box {
+    width: 90%;
+  }
+  .which-tarot-btn,
+  .which-tarot-btn-japanese {
+    background-color: transparent;
+    min-width: 70px;
+
+    &.selected,
+    &:hover {
+      min-width: 70px;
+    }
+  }
+  .which-tarot-btn {
+    @include FontExact.exact-korean-font('size-130') /* was: 1.3rem */;
+  }
+  .which-tarot-btn-japanese {
+    @include FontExact.exact-korean-font('size-080') /* was: 0.8rem */;
+  }
+  .spread-title {
+    @include responsive-text(1.7rem, 1.1rem);
+  }
+  .spread-description {
+    @include responsive-description(1.45rem, 0.9rem);
+  }
+  .spread-price {
+    @include FontExact.exact-korean-font('size-080') /* was: 0.8rem */;
+  }
+  .one-card,
+  .two-cards,
+  .three-cards,
+  .four-cards,
+  .five-cards,
+  .six-cards,
+  .ten-cards {
+    @include card-styles(2rem);
+    @include App.dongle-font(2rem);
+
+    :lang(ja) & {
+      @include App.potta-font(1.3rem);
+    }
+  }
+}
+
+// 초소형 디바이스 (280px 이하)
+@media (max-width: 280px) {
+  .spreadModal {
+    width: 100vw;
+  }
+  .btn-box {
+    width: 90%;
+  }
+  .which-tarot-btn,
+  .which-tarot-btn-japanese {
+    background-color: transparent;
+    min-width: 70px;
+
+    &.selected,
+    &:hover {
+      min-width: 70px;
+    }
+  }
+  .which-tarot-btn {
+    @include FontExact.exact-korean-font('size-130') /* was: 1.3rem */;
+  }
+  .which-tarot-btn-japanese {
+    @include FontExact.exact-korean-font('size-080') /* was: 0.8rem */;
+  }
+  .spread-title {
+    @include responsive-text(1.7rem, 1.1rem);
+  }
+  .spread-description {
+    @include responsive-description(1.45rem, 0.9rem);
+  }
+  .spread-price {
+    @include FontExact.exact-korean-font('size-070') /* was: 0.7rem */;
+  }
+  .one-card,
+  .two-cards,
+  .three-cards,
+  .four-cards,
+  .five-cards,
+  .six-cards,
+  .ten-cards {
+    @include card-styles(2rem);
+    @include App.dongle-font(2rem);
+
+    :lang(ja) & {
+      @include App.potta-font(1.3rem);
+    }
+  }
+}
+
+// ==============================================
+// 가로모드 대응
+// ==============================================
+
+// 큰 화면 가로모드 (실제 디바이스만)
+@media screen and (orientation: landscape) and (min-width: 1024px) and (max-height: 800px) {
+  .spreadModal {
+    width: 50vw;
+    max-width: 650px;
+  }
+  .spread-title {
+    @include responsive-text(1.9rem, 1.3rem);
+  }
+  .spread-description {
+    @include responsive-description(1.65rem, 1.1rem);
+  }
+  .spread-price {
+    font-size: 1rem;
+  }
+  .one-card,
+  .two-cards,
+  .three-cards,
+  .four-cards,
+  .five-cards,
+  .six-cards,
+  .ten-cards {
+    @include card-styles(2rem);
+    @include App.dongle-font(2rem);
+
+    :lang(ja) & {
+      @include App.potta-font(1.3rem);
+    }
+  }
+}
+
+// 태블릿 가로모드 (실제 디바이스만)
+@media screen and (orientation: landscape) and (min-width: 768px) and (max-width: 1024px) and (max-height: 600px) {
+  .spreadModal {
+    width: 60vw;
+  }
+  .spread-title {
+    @include responsive-text(1.9rem, 1.3rem);
+  }
+  .spread-description {
+    @include responsive-description(1.4rem, 0.85rem);
+  }
+  .spread-price {
+    font-size: 1rem;
+  }
+  .one-card,
+  .two-cards,
+  .three-cards,
+  .four-cards,
+  .five-cards,
+  .six-cards,
+  .ten-cards {
+    @include card-styles(2rem);
+    @include App.dongle-font(2rem);
+
+    :lang(ja) & {
+      @include App.potta-font(1.3rem);
+    }
+  }
+}
+
+// 모바일 가로모드 - 공통 스타일
+@mixin mobile-landscape-common {
+  .spreadModal {
+    width: 70vw;
+    max-width: 500px;
+    height: 85vh;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    z-index: 1;
+    overflow-y: auto;
+  }
+
+  .list {
+    width: 96%;
+    height: 70%;
+    @include App.flex-box-center(row);
+    justify-content: start;
+    overflow-y: hidden;
+
+    .list-element {
+      width: 100%;
+      height: 80%;
+      margin: 0 2% 0 0;
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+
+  .spread-box,
+  .spread-box-purchase {
+    width: 55vw;
+    height: 95%;
+  }
+
+  .which-tarot-btn,
+  .which-tarot-btn-japanese {
+    background-color: transparent;
+    min-height: 15px;
+
+    &.selected,
+    &:hover {
+      min-height: 15px;
+    }
+  }
+}
+
+// 큰 모바일 가로모드 (실제 디바이스만)
+@media screen and (orientation: landscape) and (min-width: 667px) and (max-width: 932px) and (max-height: 450px) {
+  @include mobile-landscape-common;
+
+  .spreadModal {
+    max-height: 310px;
+  }
+  .which-tarot-btn {
+    min-height: $btn-height-horizon2;
+    @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+  }
+  .spread-title {
+    @include responsive-text(1.9rem, 1.3rem);
+  }
+  .spread-description {
+    @include responsive-description(1.4rem, 0.85rem);
+  }
+  .one-card,
+  .two-cards,
+  .three-cards,
+  .four-cards,
+  .five-cards,
+  .six-cards,
+  .ten-cards {
+    @include card-styles(2rem);
+    @include App.dongle-font(2rem);
+
+    :lang(ja) & {
+      @include App.potta-font(1.3rem);
+    }
+  }
+}
+
+// 작은 모바일 가로모드 (실제 디바이스만)
+@media screen and (orientation: landscape) and (max-width: 667px) and (max-height: 400px) {
+  @include mobile-landscape-common;
+
+  .spreadModal {
+    max-height: 280px;
+  }
+  .which-tarot-btn {
+    min-height: $btn-height-horizon;
+    @include FontExact.exact-korean-font('size-120') /* was: 1.2rem */;
+  }
+  .spread-title {
+    @include responsive-text(1.7rem, 1.1rem);
+  }
+  .spread-description {
+    @include responsive-description(1.3rem, 0.8rem);
+  }
+  .one-card,
+  .two-cards,
+  .three-cards,
+  .four-cards,
+  .five-cards,
+  .six-cards,
+  .ten-cards {
+    @include card-styles(2rem);
+    @include App.dongle-font(2rem);
+
+    :lang(ja) & {
+      @include App.potta-font(1.3rem);
+    }
+  }
+}
+
+//Backup
+// @use '../../styles/scss/Font-Exact.module.scss' as FontExact;
+// @use '../../styles/scss/App.module.scss';
+// @use 'sass:list';
+// @use 'sass:math';
+
+// // ==============================================
+// // 변수 정의
+// // ==============================================
+// $btn-width: 70px;
+// $btn-height: 35px;
+// $btn-width-horizon: 110px;
+// $btn-height-horizon: 25px;
+// $btn-height-horizon2: 30px;
+// $border-width: 3px;
+// $animation-duration: 4s;
+// $rainbow-colors: (red, orange, yellow, green, blue, indigo, violet);
+
+// // ==============================================
+// // 믹스인 정의
+// // ==============================================
+// @mixin rainbow-animation {
+//   $total-colors: list.length($rainbow-colors);
+
+//   @keyframes rainbow {
+//     @each $color in $rainbow-colors {
+//       $index: list.index($rainbow-colors, $color);
+//       #{math.percentage(math.div($index - 1, $total-colors))} {
+//         border-color: $color;
+//       }
+//     }
+//   }
+// }
+
+// @mixin glow-effect {
+//   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+//   transition: box-shadow 0.3s ease;
+
+//   &:hover {
+//     box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+//   }
+// }
+
+// // 반응형 텍스트 크기 믹스인
+// @mixin responsive-text($korean-size, $japanese-size) {
+//   p.title {
+//     @include App.dongle-font($korean-size);
+//     line-height: 1;
+//   }
+//   p.title-japanese {
+//     @include App.potta-font($japanese-size);
+//     line-height: 1;
+//   }
+// }
+
+// @mixin responsive-description(
+//   $korean-size,
+//   $japanese-size,
+//   $japanese-line-height: 1.5
+// ) {
+//   p.description {
+//     @include App.dongle-font($korean-size);
+//     line-height: 1;
+//   }
+//   p.description-japanese {
+//     @include App.potta-font($japanese-size);
+//     line-height: $japanese-line-height;
+//   }
+// }
+
+// // 카드 스타일 믹스인
+// @mixin card-styles($font-size) {
+//   font-size: $font-size;
+
+//   span.center-underline {
+//     position: relative;
+//     display: inline-block;
+
+//     &::after {
+//       content: '';
+//       position: absolute;
+//       left: 0;
+//       right: 0;
+//       bottom: 50%;
+//       height: 3px;
+//       background-color: currentColor;
+//     }
+//   }
+// }
+
+// // ==============================================
+// // 공통 버튼 스타일
+// // ==============================================
+// %button-base {
+//   min-width: $btn-width;
+//   height: $btn-height;
+//   border: none;
+//   border-radius: 25px;
+//   cursor: pointer;
+//   @include App.flex-box-center(row);
+// }
+
+// %button {
+//   @extend %button-base;
+//   color: gold;
+//   background-color: purple;
+// }
+
+// %button-hover {
+//   @extend %button-base;
+//   color: purple;
+//   background-color: gold;
+// }
+
+// %button-selected {
+//   @extend %button-hover;
+// }
+
+// // ==============================================
+// // 메인 레이아웃
+// // ==============================================
+// .spreadModal {
+//   width: 530px;
+//   height: 100%;
+//   position: absolute;
+//   top: 0;
+//   left: 50%;
+//   transform: translateX(-50%);
+//   background-image: url('/assets/images/universe.jpg');
+//   @include App.flex-box-center(column);
+//   justify-content: space-evenly;
+//   @include App.no-select;
+// }
+
+// // ==============================================
+// // 버튼 영역
+// // ==============================================
+// .btn-box {
+//   width: 90%;
+//   min-height: 7%;
+//   padding: 5px 10px;
+//   @include App.flex-box-center(row);
+//   justify-content: space-evenly;
+//   overflow-x: auto;
+//   overflow-y: hidden;
+//   position: relative;
+
+//   // 광고 버튼들
+//   .ads-btn,
+//   .ads-btn-japanese {
+//     @extend %button;
+//     position: absolute;
+//     left: 0;
+//     border: $border-width solid;
+//     animation: rainbow $animation-duration linear infinite;
+//     @include glow-effect;
+
+//     &.selected {
+//       @extend %button-selected;
+//     }
+
+//     &:hover {
+//       @extend %button-hover;
+//       border: $border-width solid;
+//       animation: rainbow $animation-duration linear infinite;
+//       @include glow-effect;
+//     }
+//   }
+
+//   .ads-btn {
+//     @include App.dongle-font(1.5rem);
+//   }
+
+//   .ads-btn-japanese {
+//     @include App.potta-font(0.9rem);
+//   }
+
+//   // 보상 버튼들
+//   .ads-reward,
+//   .ads-reward-japanese {
+//     @extend %button;
+//     position: absolute;
+//     right: 0;
+//     @include App.flex-box-center(row);
+//   }
+
+//   .ads-reward {
+//     @include App.dongle-font(1.5rem);
+//   }
+
+//   .ads-reward-japanese {
+//     @include App.potta-font(0.9rem);
+//   }
+
+//   // 취소 버튼들
+//   .cancel-btn,
+//   .cancel-btn-japanese {
+//     @extend %button;
+
+//     &:hover {
+//       @extend %button-hover;
+//     }
+//   }
+
+//   .cancel-btn {
+//     @include App.dongle-font(1.5rem);
+//   }
+
+//   .cancel-btn-japanese {
+//     @include App.potta-font(0.9rem);
+//   }
+// }
+
+// @include App.scrollBar-custom-className(
+//   btn-box,
+//   0px,
+//   0px,
+//   transparent,
+//   transparent
+// );
+
+// // 타로 선택 버튼들
+// .which-tarot-btn,
+// .which-tarot-btn-japanese {
+//   @extend %button;
+//   background-color: transparent;
+
+//   &.selected {
+//     @extend %button-selected;
+//   }
+
+//   &:hover {
+//     @extend %button-hover;
+//   }
+// }
+
+// .which-tarot-btn {
+//   @include App.dongle-font(1.5rem);
+// }
+
+// .which-tarot-btn-japanese {
+//   @include App.potta-font(0.9rem);
+// }
+
+// // ==============================================
+// // 리스트 영역
+// // ==============================================
+// .list {
+//   width: 94%;
+//   height: 80%;
+//   overflow: auto;
+//   display: flex;
+//   align-items: center;
+//   flex-direction: column;
+// }
+
+// .list-element {
+//   width: 96%;
+//   margin: 2%;
+//   border: 1px solid #ffd700;
+//   animation: twinkle-border 1.5s ease-in-out infinite alternate;
+//   @include App.flex-box-center(row);
+//   cursor: pointer;
+
+//   &:hover {
+//     border: 2.2px solid blue;
+//     animation: none;
+//     box-shadow: none;
+//   }
+// }
+
+// @keyframes twinkle-border {
+//   from {
+//     box-shadow: 0 0 5px #ffd700;
+//   }
+//   to {
+//     box-shadow: 0 0 8px #ffd700;
+//   }
+// }
+
+// @include App.scrollBar-custom-className(list, 10px, 10px, purple, transparent);
+
+// // ==============================================
+// // 스프레드 박스
+// // ==============================================
+// .spread-box {
+//   width: 98%;
+//   height: 100%;
+//   min-height: 130px;
+//   margin: 1%;
+//   @include App.flex-box-center(row);
+// }
+
+// .spread-box-purchase {
+//   @extend .spread-box;
+// }
+
+// .spread-image {
+//   width: 30%;
+//   height: 100%;
+// }
+
+// .spread-description-box {
+//   width: 80%;
+//   height: 100%;
+//   color: gold;
+//   font-weight: 700;
+//   @include App.flex-box-center(column);
+//   justify-content: start;
+// }
+
+// .spread-title {
+//   width: 100%;
+//   @include FontExact.exact-korean-font('size-125') /* was: 1.25rem */;
+//   @include App.flex-grow(1);
+//   padding: 0.5rem 0;
+//   display: flex;
+//   align-items: center;
+
+//   p.title,
+//   p.title-japanese {
+//     width: 100%;
+//     margin: 0 10px;
+//     color: #ffd700;
+//     line-height: 1;
+//   }
+
+//   p.title {
+//     @include App.dongle-font(2rem);
+//   }
+
+//   p.title-japanese {
+//     @include App.potta-font(1.2rem);
+//   }
+// }
+
+// .spread-description {
+//   width: 100%;
+//   text-align: start;
+//   @include App.flex-grow(2);
+//   display: flex;
+//   justify-content: start;
+
+//   p.description,
+//   p.description-japanese {
+//     width: 100%;
+//     margin: 0 10px;
+//   }
+
+//   p.description {
+//     @include App.dongle-font(1.5rem);
+//     line-height: 1;
+//   }
+
+//   p.description-japanese {
+//     @include App.potta-font(1rem);
+//     line-height: 1.5;
+//   }
+// }
+
+// .spread-price {
+//   width: 100%;
+//   margin-bottom: 3px;
+//   @include App.flex-box-center(column);
+//   justify-content: end;
+//   white-space: pre;
+
+//   & > div:nth-child(1) {
+//     width: 100%;
+//     text-align: end;
+
+//     & > p:nth-child(1) {
+//       vertical-align: middle;
+//       margin-right: 0.3rem;
+//       margin-bottom: 0.3rem;
+//       line-height: 1;
+//     }
+//   }
+
+//   & > div:nth-child(2) {
+//     width: 100%;
+//     @include App.flex-box-center(row);
+//     justify-content: end;
+
+//     & > p:nth-child(2) {
+//       text-decoration: line-through;
+//     }
+
+//     & > p:last-child {
+//       margin-right: 3px;
+//     }
+//   }
+// }
+
+// // ==============================================
+// // 카드 스타일들 (원본 기능 유지)
+// // ==============================================
+// .one-card {
+//   @include App.one-card;
+//   @include card-styles(inherit);
+// }
+// .two-cards {
+//   @include App.two-cards;
+//   @include card-styles(inherit);
+// }
+// .three-cards {
+//   @include App.three-cards;
+//   @include card-styles(inherit);
+// }
+// .four-cards {
+//   @include App.four-cards;
+//   @include card-styles(inherit);
+// }
+// .five-cards {
+//   @include App.five-cards;
+//   @include card-styles(inherit);
+// }
+// .six-cards {
+//   @include App.six-cards;
+//   @include card-styles(inherit);
+// }
+// .seven-cards {
+//   @include App.seven-cards;
+//   @include card-styles(inherit);
+// }
+// .eight-cards {
+//   @include App.eight-cards;
+//   @include card-styles(inherit);
+// }
+// .nine-cards {
+//   @include App.nine-cards;
+//   @include card-styles(inherit);
+// }
+// .ten-cards {
+//   @include App.ten-cards;
+//   @include card-styles(inherit);
+// }
+// .eleven-cards {
+//   @include App.eleven-cards;
+//   @include card-styles(inherit);
+// }
+// .thirteen-cards {
+//   @include App.thirteen-cards;
+//   @include card-styles(inherit);
+// }
+// .ads-cards {
+//   @include App.ads-cards;
+//   @include card-styles(inherit);
+// }
+
+// @include rainbow-animation;
+
+// // ==============================================
+// // 반응형 미디어쿼리
+// // ==============================================
+
+// // 데스크톱 (1024px+)
+// @media (min-width: 1024px) {
+//   .spreadModal {
+//     width: 60vw;
+//   }
+//   .which-tarot-btn {
+//     background-color: transparent;
+//   }
+//   .spread-title {
+//     @include responsive-text(2rem, 1.2rem);
+//   }
+//   .spread-description {
+//     @include responsive-description(1.65rem, 1.1rem);
+//   }
+//   .spread-price {
+//     font-size: 1rem;
+//   }
+//   .one-card,
+//   .two-cards,
+//   .three-cards,
+//   .four-cards,
+//   .five-cards,
+//   .six-cards,
+//   .ten-cards {
+//     @include card-styles(2rem);
+//     @include App.dongle-font(2rem);
+
+//     :lang(ja) & {
+//       @include App.potta-font(1.3rem);
+//     }
+//   }
+// }
+
+// // 태블릿 (768px - 1024px)
+// @media (min-width: 768px) and (max-width: 1024px) {
+//   .spreadModal {
+//     width: 60vw;
+//   }
+//   .which-tarot-btn {
+//     background-color: transparent;
+//   }
+//   .spread-title {
+//     @include responsive-text(1.8rem, 1.2rem);
+//   }
+//   .spread-description {
+//     @include responsive-description(1.5rem, 1rem);
+//   }
+//   .spread-price {
+//     font-size: 1rem;
+//   }
+//   .one-card,
+//   .two-cards,
+//   .three-cards,
+//   .four-cards,
+//   .five-cards,
+//   .six-cards,
+//   .ten-cards {
+//     @include card-styles(2rem);
+//     @include App.dongle-font(2rem);
+
+//     :lang(ja) & {
+//       @include App.potta-font(1.3rem);
+//     }
+//   }
+// }
+
+// // 중간 모바일 (480px - 768px)
+// @media (min-width: 480px) and (max-width: 768px) {
+//   .spreadModal {
+//     width: 70vw;
+//   }
+//   .which-tarot-btn {
+//     background-color: transparent;
+//   }
+//   .spread-title {
+//     @include responsive-text(1.8rem, 1.2rem);
+//   }
+//   .spread-description {
+//     @include responsive-description(1.45rem, 1rem);
+//   }
+//   .spread-price {
+//     @include FontExact.exact-korean-font('size-090') /* was: 0.9rem */;
+//   }
+//   .one-card,
+//   .two-cards,
+//   .three-cards,
+//   .four-cards,
+//   .five-cards,
+//   .six-cards,
+//   .ten-cards {
+//     @include card-styles(2rem);
+//     @include App.dongle-font(2rem);
+
+//     :lang(ja) & {
+//       @include App.potta-font(1.3rem);
+//     }
+//   }
+// }
+
+// // 큰 모바일 (414px - 480px)
+// @media (min-width: 414px) and (max-width: 480px) {
+//   .spreadModal {
+//     width: 100vw;
+//   }
+//   .which-tarot-btn {
+//     background-color: transparent;
+//   }
+//   .spread-title {
+//     @include responsive-text(1.8rem, 1.2rem);
+//   }
+//   .spread-description {
+//     @include responsive-description(1.45rem, 1rem);
+//   }
+//   .spread-price {
+//     @include FontExact.exact-korean-font('size-080') /* was: 0.8rem */;
+//   }
+//   .one-card,
+//   .two-cards,
+//   .three-cards,
+//   .four-cards,
+//   .five-cards,
+//   .six-cards,
+//   .ten-cards {
+//     @include card-styles(2rem);
+//     @include App.dongle-font(2rem);
+
+//     :lang(ja) & {
+//       @include App.potta-font(1.3rem);
+//     }
+//   }
+// }
+
+// // 일반 모바일 (375px - 414px)
+// @media (min-width: 375px) and (max-width: 414px) {
+//   .spreadModal {
+//     width: 100vw;
+//   }
+//   .which-tarot-btn {
+//     background-color: transparent;
+//   }
+//   .spread-title {
+//     @include responsive-text(1.8rem, 1.2rem);
+//   }
+//   .spread-description {
+//     @include responsive-description(1.45rem, 0.9rem);
+//   }
+//   .spread-price {
+//     @include FontExact.exact-korean-font('size-080') /* was: 0.8rem */;
+//   }
+//   .one-card,
+//   .two-cards,
+//   .three-cards,
+//   .four-cards,
+//   .five-cards,
+//   .six-cards,
+//   .ten-cards {
+//     @include card-styles(2rem);
+//     @include App.dongle-font(2rem);
+
+//     :lang(ja) & {
+//       @include App.potta-font(1.3rem);
+//     }
+//   }
+// }
+
+// // 작은 모바일 (280px - 375px)
+// @media (min-width: 280px) and (max-width: 375px) {
+//   .spreadModal {
+//     width: 100vw;
+//   }
+//   .btn-box {
+//     width: 90%;
+//   }
+//   .which-tarot-btn,
+//   .which-tarot-btn-japanese {
+//     background-color: transparent;
+//     min-width: 70px;
+
+//     &.selected,
+//     &:hover {
+//       min-width: 70px;
+//     }
+//   }
+//   .which-tarot-btn {
+//     @include FontExact.exact-korean-font('size-130') /* was: 1.3rem */;
+//   }
+//   .which-tarot-btn-japanese {
+//     @include FontExact.exact-korean-font('size-080') /* was: 0.8rem */;
+//   }
+//   .spread-title {
+//     @include responsive-text(1.7rem, 1.1rem);
+//   }
+//   .spread-description {
+//     @include responsive-description(1.45rem, 0.9rem);
+//   }
+//   .spread-price {
+//     @include FontExact.exact-korean-font('size-080') /* was: 0.8rem */;
+//   }
+//   .one-card,
+//   .two-cards,
+//   .three-cards,
+//   .four-cards,
+//   .five-cards,
+//   .six-cards,
+//   .ten-cards {
+//     @include card-styles(2rem);
+//     @include App.dongle-font(2rem);
+
+//     :lang(ja) & {
+//       @include App.potta-font(1.3rem);
+//     }
+//   }
+// }
+
+// // 초소형 디바이스 (280px 이하)
+// @media (max-width: 280px) {
+//   .spreadModal {
+//     width: 100vw;
+//   }
+//   .btn-box {
+//     width: 90%;
+//   }
+//   .which-tarot-btn,
+//   .which-tarot-btn-japanese {
+//     background-color: transparent;
+//     min-width: 70px;
+
+//     &.selected,
+//     &:hover {
+//       min-width: 70px;
+//     }
+//   }
+//   .which-tarot-btn {
+//     @include FontExact.exact-korean-font('size-130') /* was: 1.3rem */;
+//   }
+//   .which-tarot-btn-japanese {
+//     @include FontExact.exact-korean-font('size-080') /* was: 0.8rem */;
+//   }
+//   .spread-title {
+//     @include responsive-text(1.7rem, 1.1rem);
+//   }
+//   .spread-description {
+//     @include responsive-description(1.45rem, 0.9rem);
+//   }
+//   .spread-price {
+//     @include FontExact.exact-korean-font('size-070') /* was: 0.7rem */;
+//   }
+//   .one-card,
+//   .two-cards,
+//   .three-cards,
+//   .four-cards,
+//   .five-cards,
+//   .six-cards,
+//   .ten-cards {
+//     @include card-styles(2rem);
+//     @include App.dongle-font(2rem);
+
+//     :lang(ja) & {
+//       @include App.potta-font(1.3rem);
+//     }
+//   }
+// }
+
+// // ==============================================
+// // 가로모드 대응
+// // ==============================================
+
+// // 큰 화면 가로모드 (실제 디바이스만)
+// @media screen and (orientation: landscape) and (min-width: 1024px) and (max-height: 800px) {
+//   .spreadModal {
+//     width: 50vw;
+//     max-width: 650px;
+//   }
+//   .spread-title {
+//     @include responsive-text(1.9rem, 1.3rem);
+//   }
+//   .spread-description {
+//     @include responsive-description(1.65rem, 1.1rem);
+//   }
+//   .spread-price {
+//     font-size: 1rem;
+//   }
+//   .one-card,
+//   .two-cards,
+//   .three-cards,
+//   .four-cards,
+//   .five-cards,
+//   .six-cards,
+//   .ten-cards {
+//     @include card-styles(2rem);
+//     @include App.dongle-font(2rem);
+
+//     :lang(ja) & {
+//       @include App.potta-font(1.3rem);
+//     }
+//   }
+// }
+
+// // 태블릿 가로모드 (실제 디바이스만)
+// @media screen and (orientation: landscape) and (min-width: 768px) and (max-width: 1024px) and (max-height: 600px) {
+//   .spreadModal {
+//     width: 60vw;
+//   }
+//   .spread-title {
+//     @include responsive-text(1.9rem, 1.3rem);
+//   }
+//   .spread-description {
+//     @include responsive-description(1.4rem, 0.85rem);
+//   }
+//   .spread-price {
+//     font-size: 1rem;
+//   }
+//   .one-card,
+//   .two-cards,
+//   .three-cards,
+//   .four-cards,
+//   .five-cards,
+//   .six-cards,
+//   .ten-cards {
+//     @include card-styles(2rem);
+//     @include App.dongle-font(2rem);
+
+//     :lang(ja) & {
+//       @include App.potta-font(1.3rem);
+//     }
+//   }
+// }
+
+// // 모바일 가로모드 - 공통 스타일
+// @mixin mobile-landscape-common {
+//   .spreadModal {
+//     width: 70vw;
+//     max-width: 500px;
+//     height: 85vh;
+//     top: 60%;
+//     left: 50%;
+//     transform: translate(-50%, -60%);
+//     z-index: 1;
+//     overflow-y: auto;
+//   }
+
+//   .list {
+//     width: 96%;
+//     height: 70%;
+//     @include App.flex-box-center(row);
+//     justify-content: start;
+//     overflow-y: hidden;
+
+//     .list-element {
+//       width: 100%;
+//       height: 80%;
+//       margin: 0 2% 0 0;
+
+//       &:last-child {
+//         margin: 0;
+//       }
+//     }
+//   }
+
+//   .spread-box,
+//   .spread-box-purchase {
+//     width: 55vw;
+//     height: 95%;
+//   }
+
+//   .which-tarot-btn,
+//   .which-tarot-btn-japanese {
+//     background-color: transparent;
+//     min-height: 15px;
+
+//     &.selected,
+//     &:hover {
+//       min-height: 15px;
+//     }
+//   }
+// }
+
+// // 큰 모바일 가로모드 (실제 디바이스만)
+// @media screen and (orientation: landscape) and (min-width: 667px) and (max-width: 932px) and (max-height: 450px) {
+//   @include mobile-landscape-common;
+
+//   .spreadModal {
+//     max-height: 310px;
+//   }
+//   .which-tarot-btn {
+//     min-height: $btn-height-horizon2;
+//     @include FontExact.exact-korean-font('size-140') /* was: 1.4rem */;
+//   }
+//   .spread-title {
+//     @include responsive-text(1.9rem, 1.3rem);
+//   }
+//   .spread-description {
+//     @include responsive-description(1.4rem, 0.85rem);
+//   }
+//   .one-card,
+//   .two-cards,
+//   .three-cards,
+//   .four-cards,
+//   .five-cards,
+//   .six-cards,
+//   .ten-cards {
+//     @include card-styles(2rem);
+//     @include App.dongle-font(2rem);
+
+//     :lang(ja) & {
+//       @include App.potta-font(1.3rem);
+//     }
+//   }
+// }
+
+// // 작은 모바일 가로모드 (실제 디바이스만)
+// @media screen and (orientation: landscape) and (max-width: 667px) and (max-height: 400px) {
+//   @include mobile-landscape-common;
+
+//   .spreadModal {
+//     max-height: 280px;
+//   }
+//   .which-tarot-btn {
+//     min-height: $btn-height-horizon;
+//     @include FontExact.exact-korean-font('size-120') /* was: 1.2rem */;
+//   }
+//   .spread-title {
+//     @include responsive-text(1.7rem, 1.1rem);
+//   }
+//   .spread-description {
+//     @include responsive-description(1.3rem, 0.8rem);
+//   }
+//   .one-card,
+//   .two-cards,
+//   .three-cards,
+//   .four-cards,
+//   .five-cards,
+//   .six-cards,
+//   .ten-cards {
+//     @include card-styles(2rem);
+//     @include App.dongle-font(2rem);
+
+//     :lang(ja) & {
+//       @include App.potta-font(1.3rem);
+//     }
+//   }
+// }
